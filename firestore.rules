@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.admin == true;
+    }
+
+    function isOwnerOf(uidField) {
+      return isSignedIn() && request.auth.uid == resource.data[uidField];
+    }
+
+    // --- users ---
+    // User doc creation happens server-side (Admin SDK) during registration.
+    // Clients may only edit their own profile fields, never roles/suspended.
+    match /users/{uid} {
+      allow read: if isSignedIn();
+      allow create: if false;
+      allow update: if isAdmin() || (
+        isSignedIn() && request.auth.uid == uid &&
+        request.resource.data.roles == resource.data.roles &&
+        request.resource.data.suspended == resource.data.suspended &&
+        request.resource.data.uid == resource.data.uid
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- properties ---
+    match /properties/{propertyId} {
+      allow read: if resource.data.status == 'approved' || isAdmin() ||
+        (isSignedIn() && request.auth.uid == resource.data.ownerId);
+      allow create: if isSignedIn() &&
+        request.resource.data.ownerId == request.auth.uid &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.featured == false;
+      allow update: if isAdmin() || (
+        isSignedIn() && request.auth.uid == resource.data.ownerId &&
+        request.resource.data.ownerId == resource.data.ownerId &&
+        request.resource.data.status == 'pending' &&
+        request.resource.data.featured == resource.data.featured
+      );
+      allow delete: if isAdmin() || isOwnerOf('ownerId');
+    }
+
+    // --- favorites (doc id: {uid}_{propertyId}) ---
+    match /favorites/{favId} {
+      allow read, write: if isSignedIn() && request.auth.uid == request.resource.data.uid;
+      allow read, delete: if isSignedIn() && resource != null && request.auth.uid == resource.data.uid;
+    }
+
+    // --- inquiries ---
+    match /inquiries/{inquiryId} {
+      allow read: if isAdmin() || isOwnerOf('tenantId') || isOwnerOf('ownerId');
+      allow create: if isSignedIn() &&
+        request.resource.data.tenantId == request.auth.uid &&
+        request.resource.data.status == 'sent';
+      allow update: if isAdmin() ||
+        (isSignedIn() && request.auth.uid == resource.data.ownerId) ||
+        (isSignedIn() && request.auth.uid == resource.data.tenantId);
+      allow delete: if isAdmin();
+    }
+
+    // --- reviews ---
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.resource.data.tenantId == request.auth.uid;
+      allow update: if false;
+      allow delete: if isAdmin() || isOwnerOf('tenantId');
+    }
+
+    // --- notifications (server/Cloud Functions create; owner may mark read) ---
+    match /notifications/{notificationId} {
+      allow read: if isOwnerOf('uid');
+      allow create: if false;
+      allow update: if isSignedIn() && request.auth.uid == resource.data.uid &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read']);
+      allow delete: if isOwnerOf('uid');
+    }
+
+    // --- savedSearches ---
+    match /savedSearches/{searchId} {
+      allow read, delete: if isOwnerOf('uid');
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if isSignedIn() && request.auth.uid == resource.data.uid;
+    }
+  }
+}
