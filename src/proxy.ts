@@ -4,7 +4,7 @@ import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 const AUTH_ONLY_PREFIXES = ["/dashboard", "/admin"];
 const GUEST_ONLY_PATHS = ["/login"];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasSession = Boolean(request.cookies.get(SESSION_COOKIE_NAME)?.value);
 
