@@ -48,3 +48,11 @@ next-env.d.ts
 # impeccable
 .impeccable/
 
+# agents
+.agents/
+
+# claude
+.claude/
+
+# agent skills
+Ai_Agent_Skills/
