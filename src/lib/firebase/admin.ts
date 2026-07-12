@@ -8,11 +8,44 @@ function loadServiceAccount() {
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
   if (!raw) return null;
   try {
-    return JSON.parse(raw);
-  } catch {
-    throw new Error(
-      "FIREBASE_SERVICE_ACCOUNT_KEY is set but is not valid JSON. Paste the full service account JSON as a single-line string."
-    );
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed.private_key === "string") {
+      parsed.private_key = parsed.private_key.replace(/\\n/g, "\n");
+    }
+    return parsed;
+  } catch (err) {
+    try {
+      const extractField = (field: string) => {
+        const regex = new RegExp('"' + field + '"\\s*:\\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"', "s");
+        const match = raw.match(regex);
+        if (match) {
+          try {
+            return JSON.parse('"' + match[1] + '"');
+          } catch {
+            return match[1];
+          }
+        }
+        return undefined;
+      };
+
+      const projectId = extractField("project_id");
+      const clientEmail = extractField("client_email");
+      let privateKey = extractField("private_key");
+
+      if (projectId && clientEmail && privateKey) {
+        if (typeof privateKey === "string") {
+          privateKey = privateKey.replace(/\\n/g, "\n");
+        }
+        return {
+          project_id: projectId,
+          client_email: clientEmail,
+          private_key: privateKey,
+          private_key_id: extractField("private_key_id"),
+          type: extractField("type") || "service_account",
+        };
+      }
+    } catch {}
+    throw err;
   }
 }
 
