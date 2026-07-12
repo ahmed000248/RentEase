@@ -1037,7 +1037,7 @@ function ExpandedCard({
           initial={{ opacity: 0 }}
           animate={{ opacity: textVisible ? 1 : 0 }}
           transition={{ duration: 0.4, delay: textVisible ? 0.05 : 0 }}
-          className="flex-1 min-w-0 flex flex-col justify-center p-8 md:p-16 overflow-y-auto"
+          className="flex-1 min-h-0 min-w-0 flex flex-col justify-start md:justify-center p-8 md:p-16 overflow-y-auto"
         >
           <button
             type="button"
@@ -1086,7 +1086,7 @@ function ExpandedCard({
             View Details
           </Link>
         </motion.div>
-        <div className="flex-1 min-w-0 relative h-56 md:h-auto">
+        <div className="h-56 flex-shrink-0 md:flex-1 md:min-w-0 relative md:h-auto">
           <Image src={property.images[0]} alt={property.title} fill className="object-cover" />
         </div>
       </motion.div>
