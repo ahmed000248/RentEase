@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Messages | Owner Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#343537",
+                    "on-surface": "#e3e2e5",
+                    "background": "#121315",
+                    "tertiary": "#fff9f4",
+                    "on-secondary": "#2f3133",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "surface-container-high": "#292a2c",
+                    "secondary-fixed": "#e2e2e5",
+                    "primary-fixed": "#6bff83",
+                    "tertiary-container": "#ffd892",
+                    "primary-container": "#00ff66",
+                    "surface-tint": "#00e55b",
+                    "outline": "#849581",
+                    "on-primary": "#003911",
+                    "on-primary-fixed": "#002107",
+                    "on-primary-container": "#007128",
+                    "inverse-surface": "#e3e2e5",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#b9ccb5",
+                    "surface": "#121315",
+                    "on-tertiary-fixed-variant": "#5c4209",
+                    "on-secondary-fixed": "#1a1c1e",
+                    "surface-container-lowest": "#0d0e10",
+                    "on-tertiary-fixed": "#271900",
+                    "on-secondary-fixed-variant": "#454749",
+                    "primary-fixed-dim": "#00e55b",
+                    "on-tertiary-container": "#795d23",
+                    "surface-dim": "#121315",
+                    "secondary": "#c6c6c9",
+                    "on-error": "#690005",
+                    "on-tertiary": "#412d00",
+                    "on-primary-fixed-variant": "#00531b",
+                    "on-background": "#e3e2e5",
+                    "surface-container-low": "#1b1c1e",
+                    "secondary-container": "#454749",
+                    "tertiary-fixed": "#ffdea5",
+                    "tertiary-fixed-dim": "#e7c17d",
+                    "inverse-on-surface": "#303033",
+                    "primary": "#edffe8",
+                    "secondary-fixed-dim": "#c6c6c9",
+                    "on-secondary-container": "#b4b5b7",
+                    "inverse-primary": "#006e27",
+                    "outline-variant": "#3b4b3a",
+                    "surface-container": "#1f2022",
+                    "surface-container-highest": "#343537",
+                    "surface-bright": "#38393b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "margin-desktop": "40px",
+                    "container-max": "1440px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Hanken Grotesk"],
+                    "headline-lg-mobile": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0b0c0e;
+            color: #e3e2e5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #2c2e33;
+            border-radius: 10px;
+        }
+        .message-glow {
+            box-shadow: 0px 0px 20px rgba(0, 255, 102, 0.1);
+        }
+    </style>
+</head>
+<body class="overflow-hidden h-screen flex">
+<!-- Side Navigation Shell (from JSON) -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest flex flex-col py-8 px-4 z-50">
+<div class="mb-10 px-2">
+<h1 class="text-primary-fixed font-headline-md font-bold uppercase tracking-widest">OWNER PORTAL</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">Premium Management</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-body-sm text-body-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<span class="font-body-sm text-body-sm">Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-body-sm text-body-sm">Analytics</span>
+</a>
+<!-- Active State for Messages -->
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed bg-surface-container-highest rounded-lg border-l-4 border-primary-fixed scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+<span class="font-body-sm text-body-sm">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-body-sm text-body-sm">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-sm text-body-sm">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant/30 px-2 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container/20 flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a professional male real estate owner in a dark modern office setting, wearing a tailored charcoal suit, looking confident and sophisticated with a soft cinematic green backlight." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWx0FNSgHF8IH3lAjlh3pWNsP34N3oxFbA9lIQ559tuuKNK1N_WHgj3FifJ9pJCT6Wm0Hy9TpIqBwd2_LlSgxOC_AXRk1yMJ6LP2PQ0fsxF-XL2UtGO3LpqTDsPtHeo5zl3HSexjQEsv81YmBWS3JpaVeNJgf2n2r789eMVWLkfUzxQRr55_Zn3WC3TyXS9MjAKmaZn0pB_6_HCRdmG5Mwgur8qkwH98FW6Dnxr2EFPRSaeBa3Zznt"/>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface">Alex Rivera</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Premium Plan</p>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col h-screen">
+<!-- Top Bar Shell (from JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-256px)] h-16 z-40 border-b border-outline-variant bg-surface-dim/90 backdrop-blur-xl flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg group-focus-within:text-primary-fixed transition-colors">search</span>
+<input class="w-full bg-surface-container border border-outline-variant rounded-lg pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary-fixed transition-all placeholder:text-on-surface-variant/50" placeholder="Search conversations..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-surface-container-high text-on-surface-variant transition-colors relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2.5 right-2.5 w-2 h-2 bg-primary-fixed rounded-full"></span>
+</button>
+<button class="px-4 py-2 bg-primary-container text-on-primary font-label-md text-label-md rounded-lg hover:scale-[1.02] active:scale-95 transition-all">
+                    Add Listing
+                </button>
+</div>
+</header>
+<!-- Messages Interface -->
+<div class="pt-16 flex-1 flex overflow-hidden">
+<!-- Left Column: Chat List -->
+<div class="w-80 border-r border-outline-variant bg-surface-container-lowest flex flex-col">
+<div class="p-4 border-b border-outline-variant/30">
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-sm text-on-surface">Inbox</h2>
+<span class="bg-primary-container/20 text-primary-fixed text-[10px] px-2 py-0.5 rounded-full font-bold">12 UNREAD</span>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar">
+<!-- Conversation Item (Active) -->
+<div class="p-4 bg-surface-container-highest/50 border-l-4 border-primary-fixed cursor-pointer transition-all hover:bg-surface-container-highest">
+<div class="flex gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover" data-alt="Professional headshot of a female tenant in her late 20s, friendly expression, natural lighting, wearing casual modern attire against a soft-focus urban apartment background with cool tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPbzv-CyseC2VoHktxiS6cX6Tj9kl1qMDPvxgr5XdAD2bHTxgxlo-WIkArjvRZG-3MZmUaDdhPJ-vfofgx4d29Sy-wJZEWHfRShT5nO7H_HBXfOo1iEycawbwkeU-2Wl44IMtZr9BFkxXZ5Jyea8PB7x_LBC8HiK-iNLynSkIwkWpsTtzl0z8XVZiN5SFTWwMaxj1rAZ-63PU-bMfw_OIqgyBufcleVwTBSuyApaKs4T7wKh4q9FZA"/>
+<span class="absolute bottom-0 right-0 w-3 h-3 bg-primary-fixed border-2 border-surface-container-lowest rounded-full"></span>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-0.5">
+<h3 class="text-on-surface font-semibold text-sm truncate">Sarah Johnson</h3>
+<span class="text-[10px] text-on-surface-variant uppercase">10:32 AM</span>
+</div>
+<p class="text-xs text-primary-fixed font-medium truncate mb-1">Modern Glass Penthouse</p>
+<p class="text-xs text-on-surface-variant truncate">How about tomorrow at 2 PM?</p>
+</div>
+</div>
+</div>
+<!-- Conversation Item -->
+<div class="p-4 cursor-pointer transition-all hover:bg-surface-container-high border-l-4 border-transparent">
+<div class="flex gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover opacity-80" data-alt="Portrait of a male prospective tenant in his 30s, smart casual business attire, clean-cut look, warm studio lighting with dark background, professional and approachable aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiA7Tu0_GmTKx8csVLyh_GBPa14IdzTIoVVnlNRl1vQjufYSEQncgjj54hMtE6Fl5HZtRDl4Gec4h2S4zH6vQWdj35IORRd59sYPYTbpea4eW-fZCo_1-rsyU2v6s90-h1IO5VyfpgSicX9C9aHAn3hXh20kV_z3h9NhZMWLzX7u0BCnSw4hqSSSlkgsCZAuxIX4V1cwZIqueNBODZBgeQetEIP-8vyF7cOrqM_XgHFX063F0k5Olp"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-0.5">
+<h3 class="text-on-surface font-semibold text-sm truncate">Marcus Chen</h3>
+<span class="text-[10px] text-on-surface-variant uppercase">Yesterday</span>
+</div>
+<p class="text-xs text-on-surface-variant truncate mb-1">Industrial Loft Suite</p>
+<p class="text-xs text-on-surface-variant truncate font-bold">Is the utility fee included in the monthly rent?</p>
+</div>
+<div class="bg-primary-fixed w-2 h-2 rounded-full self-center"></div>
+</div>
+</div>
+<!-- Conversation Item -->
+<div class="p-4 cursor-pointer transition-all hover:bg-surface-container-high border-l-4 border-transparent">
+<div class="flex gap-3">
+<div class="relative flex-shrink-0">
+<img class="w-12 h-12 rounded-full object-cover opacity-80" data-alt="Portrait of a young couple smiling, lifestyle photography, bright morning light through a window, soft colors, natural and happy atmosphere for a real estate context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdrZ04yTrrw2u9LoXhAPk4j4suXaG_vNmQ0raW58cAZH-SU6qfiS7mJgyp6A5_P93mJcbSwxRgpMqpZr4Ng0X9VVKKGtN_2LNPpCw_zfNwltNsL_EIz5cjva-QLlNQcpLjIuqcGX7HCvlDI8Or9p3SS8N0bb3CDsclUAcTJ2cRTBaNfCcVrQUBYQuF-NwgdLn3vpZAqcLZ0iFRCIEhyHfWHHqevh4tskkccEdcNDfHOCTcBHVq6ZVB"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-start mb-0.5">
+<h3 class="text-on-surface font-semibold text-sm truncate">The Thompsons</h3>
+<span class="text-[10px] text-on-surface-variant uppercase">Mar 12</span>
+</div>
+<p class="text-xs text-on-surface-variant truncate mb-1">Suburban Family Estate</p>
+<p class="text-xs text-on-surface-variant truncate">Thank you for the quick tour! We are...</p>
+</div>
+</div>
+</div>
+<!-- More Items... -->
+<div class="p-4 opacity-50 cursor-not-allowed">
+<div class="flex gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-container-high animate-pulse"></div>
+<div class="flex-1 space-y-2">
+<div class="h-3 w-1/2 bg-surface-container-high rounded animate-pulse"></div>
+<div class="h-3 w-3/4 bg-surface-container-high rounded animate-pulse"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Center Column: Chat Window -->
+<div class="flex-1 flex flex-col bg-surface-dim relative">
+<!-- Chat Header -->
+<div class="h-16 flex items-center justify-between px-6 border-b border-outline-variant/30 bg-surface/50 backdrop-blur-sm">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Professional headshot of Sarah Johnson, soft lighting, modern apartment interior background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_BmLKIuNG4jJrJOQKVIUoWdqwUCeYN1hPNabWFZ4LPeOSbrFuSO6nQGM8T9nzarqCcJeg6Dz8nqtHqjXhHwcqecD4vNCd6kSvl1LaONOSVbvWmM417Ybtyd0B3VrFgp7sXda4VGQX4ZImYyLrUH9STLbiVNDScan6Ea0irXMd2sSRH0BNaBtUinrZJzBCXvMDslOFYxgsNUmtphuzrJuxXIOo8HEkkBloFVhHSylKrA1sJtpaSN6b"/>
+</div>
+<div>
+<h3 class="text-sm font-semibold text-on-surface">Sarah Johnson</h3>
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 bg-primary-fixed rounded-full"></span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Online</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-on-surface-variant hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined">call</span></button>
+<button class="p-2 text-on-surface-variant hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined">videocam</span></button>
+<button class="p-2 text-on-surface-variant hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+</div>
+<!-- Chat Canvas -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6 custom-scrollbar">
+<div class="flex justify-center">
+<span class="text-[10px] font-bold text-on-surface-variant tracking-widest bg-surface-container px-3 py-1 rounded-full border border-outline-variant/30">TODAY</span>
+</div>
+<!-- Tenant Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="bg-surface-container-high p-4 rounded-2xl rounded-tl-none border border-outline-variant/20">
+<p class="text-sm text-on-surface leading-relaxed">Hi, I'm interested in your penthouse apartment listing. Is it still available for a viewing this week?</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1 ml-1">10:30 AM</span>
+</div>
+<!-- Owner Message -->
+<div class="flex flex-col items-end max-w-[80%] ml-auto">
+<div class="bg-primary-container p-4 rounded-2xl rounded-tr-none text-on-primary font-medium message-glow">
+<p class="text-sm leading-relaxed">Yes, it is still available! Would you like to schedule a viewing? I have slots tomorrow afternoon.</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1 mr-1">10:32 AM</span>
+</div>
+<!-- Property Preview Card in Chat -->
+<div class="flex justify-start">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-2xl overflow-hidden max-w-sm hover:shadow-xl transition-shadow group">
+<div class="h-32 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="Cinematic wide shot of a luxury glass penthouse interior, neon city lights reflecting on polished floors, ultra-modern furniture, high ceilings, vibrant night-time aesthetic with green and dark gray color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB70zGX9WqtAD1M85aljzb8yddtO_Ft39tJiVx0SUFaLtAraH-ZtYL3T375puODl_bacpKEYlvAso8e9FUJIJUacB7u4rDY09YGIhfrpbM8lrhmT5vfywUvZTx6msFgapZAr9z7xd4xcdTSWEQmb_o0ze9rrM1bpX5Fv0SteIL_MnQrVPbxnH2Tx8Bhj1DC5eKGMrvtTDASdyjpKdAEuG5GSQXWTFNgnauhh20mGYjg2lBKj1cBfRIB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="absolute bottom-3 left-3">
+<p class="text-[10px] font-bold text-primary-fixed uppercase tracking-widest">Active Listing</p>
+<p class="text-white font-semibold text-sm">Modern Glass Penthouse</p>
+</div>
+</div>
+<div class="p-3 flex items-center justify-between bg-surface-container-low">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-primary-fixed">location_on</span>
+<span class="text-[11px] text-on-surface-variant">Downtown Core, Block A</span>
+</div>
+<span class="text-sm font-bold text-on-surface">$4,500<span class="text-[10px] font-normal text-on-surface-variant">/mo</span></span>
+</div>
+</div>
+</div>
+<!-- Appointment Scheduled -->
+<div class="flex justify-center">
+<div class="bg-surface-container-highest/30 border border-primary-fixed/30 p-4 rounded-xl flex items-center gap-4 max-w-md w-full">
+<div class="w-12 h-12 bg-primary-container/20 rounded-lg flex items-center justify-center text-primary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">event_available</span>
+</div>
+<div class="flex-1">
+<p class="text-xs font-bold text-primary-fixed uppercase tracking-wider mb-0.5">Appointment Confirmed</p>
+<p class="text-sm text-on-surface">Property Viewing at 2:00 PM</p>
+<p class="text-[10px] text-on-surface-variant">Tomorrow, October 24th</p>
+</div>
+<button class="p-2 hover:bg-surface-container-high rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">edit</span>
+</button>
+</div>
+</div>
+<!-- Last Message -->
+<div class="flex flex-col items-start max-w-[80%]">
+<div class="bg-surface-container-high p-4 rounded-2xl rounded-tl-none border border-outline-variant/20">
+<p class="text-sm text-on-surface leading-relaxed">That would be great! What times work best for you?</p>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-1 ml-1">10:35 AM</span>
+</div>
+<div class="flex flex-col items-end max-w-[80%] ml-auto">
+<div class="bg-primary-container p-4 rounded-2xl rounded-tr-none text-on-primary font-medium message-glow">
+<p class="text-sm leading-relaxed">How about tomorrow at 2 PM?</p>
+</div>
+<div class="flex items-center gap-1 mt-1 mr-1">
+<span class="text-[10px] text-on-surface-variant">10:41 AM</span>
+<span class="material-symbols-outlined text-[14px] text-primary-fixed">done_all</span>
+</div>
+</div>
+</div>
+<!-- Chat Input -->
+<div class="p-4 bg-surface/80 border-t border-outline-variant/30">
+<div class="bg-surface-container-low border border-outline-variant/50 rounded-2xl p-2 flex items-end gap-2 focus-within:border-primary-fixed/50 transition-all">
+<button class="p-2 text-on-surface-variant hover:text-primary-fixed"><span class="material-symbols-outlined">add_circle</span></button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 text-sm py-2 resize-none custom-scrollbar placeholder:text-on-surface-variant/40" placeholder="Type your message..." rows="1"></textarea>
+<div class="flex items-center gap-1 p-1">
+<button class="p-2 text-on-surface-variant hover:text-primary-fixed transition-colors"><span class="material-symbols-outlined">mood</span></button>
+<button class="w-10 h-10 bg-primary-container text-on-primary rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary-container/20">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Tenant Info -->
+<div class="w-72 border-l border-outline-variant bg-surface-container-lowest hidden lg:flex flex-col overflow-y-auto custom-scrollbar">
+<div class="p-6 flex flex-col items-center text-center border-b border-outline-variant/30">
+<div class="w-24 h-24 rounded-full p-1 border-2 border-primary-fixed/30 mb-4 relative">
+<img class="w-full h-full rounded-full object-cover" data-alt="High-end professional portrait of Sarah Johnson, elegant lighting, shallow depth of field, blurred modern architectural background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgbKYAymv7kcCN3NACGrqip2vYJ373E4AA3BwKcDX2dxQ8Rd0NLjdvvbs-wtZU2GSXoYjelWEr-9lhBZvXme0MrlNdmXgL46r16tL5jqaafnpqqEHQ3rv5toBmgaycznSTmuhwfRUnNkMHEjKl_MvVM4Fxblfg-3tUm-U4K3_OyoTClH9iecCOICgrwkUxz1h77IrHG37cser2ielNgdFWnpv-_DnrrnUqQUjiggoIVjdAvWFGLrix"/>
+<div class="absolute -bottom-1 -right-1 bg-primary-fixed text-on-primary w-7 h-7 rounded-full flex items-center justify-center border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+</div>
+<h3 class="font-headline-md text-headline-sm text-on-surface">Sarah Johnson</h3>
+<p class="text-xs text-on-surface-variant mb-4">Prospective Tenant since 2023</p>
+<div class="flex gap-2 w-full">
+<button class="flex-1 py-2 rounded-lg bg-surface-container-high border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider hover:bg-surface-container transition-colors">Profile</button>
+<button class="flex-1 py-2 rounded-lg bg-surface-container-high border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider hover:bg-surface-container transition-colors">Docs</button>
+</div>
+</div>
+<div class="p-6 space-y-6">
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">Contact Details</p>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">mail</span>
+</div>
+<div class="min-w-0">
+<p class="text-[10px] text-on-surface-variant leading-none mb-1">Email</p>
+<p class="text-xs text-on-surface font-medium truncate">sarah.j@outlook.com</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-lg">phone</span>
+</div>
+<div>
+<p class="text-[10px] text-on-surface-variant leading-none mb-1">Phone</p>
+<p class="text-xs text-on-surface font-medium">+1 (555) 012-3456</p>
+</div>
+</div>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">Quick Actions</p>
+<div class="grid grid-cols-1 gap-2">
+<button class="w-full flex items-center justify-between p-3 bg-surface-container border border-outline-variant/30 rounded-xl hover:border-primary-fixed/50 hover:bg-surface-container-high transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed group-hover:scale-110 transition-transform">calendar_add_on</span>
+<span class="text-xs font-semibold text-on-surface">Schedule Viewing</span>
+</div>
+<span class="material-symbols-outlined text-sm text-on-surface-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 bg-surface-container border border-outline-variant/30 rounded-xl hover:border-primary-fixed/50 hover:bg-surface-container-high transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed group-hover:scale-110 transition-transform">description</span>
+<span class="text-xs font-semibold text-on-surface">Request Credit Report</span>
+</div>
+<span class="material-symbols-outlined text-sm text-on-surface-variant">chevron_right</span>
+</button>
+<button class="w-full flex items-center justify-between p-3 bg-surface-container border border-outline-variant/30 rounded-xl hover:border-primary-fixed/50 hover:bg-surface-container-high transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error group-hover:scale-110 transition-transform">block</span>
+<span class="text-xs font-semibold text-on-surface">Mute Notification</span>
+</div>
+<span class="material-symbols-outlined text-sm text-on-surface-variant">chevron_right</span>
+</button>
+</div>
+</div>
+<div>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-3">Shared Files (3)</p>
+<div class="space-y-2">
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-lg">picture_as_pdf</span>
+<span class="text-[11px] text-on-surface">ID_Verification.pdf</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-sm">download</span></button>
+</div>
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container-low border border-outline-variant/20">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-lg">description</span>
+<span class="text-[11px] text-on-surface">Proof_of_Income.pdf</span>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined text-sm">download</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button: Contextual for Home/Messages usually, but we keep it minimal here -->
+<!-- Supressed on sub-pages as per rules -->
+<script>
+        // Simple micro-interaction for input auto-resize (mockup logic)
+        const textarea = document.querySelector('textarea');
+        textarea.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+            if (this.scrollHeight > 150) {
+                this.style.overflowY = 'auto';
+            } else {
+                this.style.overflowY = 'hidden';
+            }
+        });
+
+        // Toggle Right Sidebar (responsive mockup)
+        document.querySelectorAll('.conversation-item').forEach(item => {
+            item.addEventListener('click', () => {
+                // Animation or load state logic could go here
+                console.log('Switching conversation...');
+            });
+        });
+    </script>
+</body></html>

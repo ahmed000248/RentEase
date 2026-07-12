@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Owner Portal - Property Listings</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Hanken+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed": "#ffdea5",
+                        "secondary": "#c6c6c9",
+                        "on-secondary-fixed-variant": "#454749",
+                        "on-primary-fixed": "#002107",
+                        "on-background": "#e3e2e5",
+                        "secondary-container": "#454749",
+                        "on-secondary": "#2f3133",
+                        "primary-container": "#00ff66",
+                        "surface-bright": "#38393b",
+                        "secondary-fixed-dim": "#c6c6c9",
+                        "tertiary": "#fff9f4",
+                        "error-container": "#93000a",
+                        "tertiary-container": "#ffd892",
+                        "surface-tint": "#00e55b",
+                        "on-primary-fixed-variant": "#00531b",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed-variant": "#5c4209",
+                        "surface": "#121315",
+                        "surface-container-low": "#1b1c1e",
+                        "surface-container-high": "#292a2c",
+                        "on-surface-variant": "#b9ccb5",
+                        "on-tertiary": "#412d00",
+                        "outline-variant": "#3b4b3a",
+                        "primary-fixed": "#6bff83",
+                        "primary": "#edffe8",
+                        "on-surface": "#e3e2e5",
+                        "on-primary-container": "#007128",
+                        "surface-variant": "#343537",
+                        "on-error-container": "#ffdad6",
+                        "background": "#121315",
+                        "inverse-surface": "#e3e2e5",
+                        "on-tertiary-container": "#795d23",
+                        "outline": "#849581",
+                        "surface-container": "#1f2022",
+                        "on-tertiary-fixed": "#271900",
+                        "primary-fixed-dim": "#00e55b",
+                        "on-secondary-container": "#b4b5b7",
+                        "on-primary": "#003911",
+                        "on-error": "#690005",
+                        "inverse-on-surface": "#303033",
+                        "tertiary-fixed-dim": "#e7c17d",
+                        "surface-container-highest": "#343537",
+                        "on-secondary-fixed": "#1a1c1e",
+                        "inverse-primary": "#006e27",
+                        "surface-container-lowest": "#0d0e10",
+                        "secondary-fixed": "#e2e2e5",
+                        "surface-dim": "#121315"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-lg": "32px",
+                        "container-max": "1440px",
+                        "stack-md": "16px",
+                        "margin-desktop": "40px",
+                        "stack-sm": "8px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Hanken Grotesk"],
+                        "headline-lg": ["Hanken Grotesk"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0b0c0e;
+            color: #e3e2e5;
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-glow:hover {
+            box-shadow: 0px 0px 20px rgba(0, 255, 102, 0.15);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121315;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #2c2e33;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3b4b3a;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+<!-- Side Navigation Shell -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest dark:bg-surface-container-lowest z-50 flex flex-col py-8 px-4">
+<div class="mb-10 px-4">
+<h1 class="text-primary-fixed font-headline-md font-bold uppercase tracking-widest">OWNER PORTAL</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant opacity-70">Premium Management</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-body-md text-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed bg-surface-container-highest rounded-lg border-l-4 border-primary-fixed group scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+<span class="font-body-md text-body-md">Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-body-md text-body-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-body-md text-body-md">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface transition-colors hover:bg-surface-container-high rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_today">calendar_today</span>
+<span class="font-body-md text-body-md">Calendar</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-6 px-4">
+<a class="flex items-center gap-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</div>
+</aside>
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 right-0 w-[calc(100%-256px)] h-16 z-40 border-b border-outline-variant bg-surface-dim/90 backdrop-blur-xl flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-6 flex-1">
+<div class="relative w-full max-w-md focus-within:ring-1 focus-within:ring-primary-fixed rounded-lg transition-all">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg py-2 pl-10 pr-4 text-on-surface placeholder:text-on-surface-variant/50 focus:ring-0" placeholder="Search properties, owners..." type="text"/>
+</div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+                Advanced Filters
+            </button>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-outline-variant pr-6">
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-primary-container rounded-full border border-surface"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary-fixed transition-colors">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</button>
+</div>
+<button class="bg-primary-container text-on-primary-container px-4 py-2 rounded-lg font-label-md text-label-md font-bold custom-glow transition-all active:scale-95">
+                Add Listing
+            </button>
+<div class="w-10 h-10 rounded-full border-2 border-primary-fixed overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up professional portrait of a senior real estate executive in a dark tailored suit, high-end corporate style with dramatic Rembrandt lighting against a deep charcoal background. The mood is sophisticated and authoritative, perfectly matching a premium luxury property management aesthetic with sharp focus and cinematic depth." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6wS_XvqhjmxS15Q2CznqogFTwBpO_2q9eYubpHlg6AoBspNlfWX7_em5azySufSDf4sQIMFCzdtn4Q62_Qq2-rfY3w2JcVlVn7V0UxRgmeyZD35u-lY8CJdiKQVhVIb4fvCfqrjqsrHr3hzT2puztAplI3kuv_gWbjAzC30RtU7cnetTroUxNyX0GklyeDqIBq46R0ORMwYFjBs51IFQMON9b1873vqTvYKg8LqXs3xRC1Tu9SqGS"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-margin-desktop pb-12">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-2">Property Listings</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Manage and review all property inventory across your premium portfolio.</p>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 border border-outline-variant px-4 py-2 rounded-lg text-on-surface hover:bg-surface-container-high transition-colors font-label-md text-label-md">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                    Export CSV
+                </button>
+<div class="flex items-center bg-surface-container-low rounded-lg p-1 border border-outline-variant">
+<button class="p-2 bg-surface-container-highest text-primary-fixed rounded-md">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined" data-icon="view_list">view_list</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Bulk Actions & Statistics -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-8">
+<div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl relative overflow-hidden group transition-all hover:border-primary-fixed/30">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-fixed text-3xl" data-icon="home_work">home_work</span>
+<span class="text-primary-fixed font-label-md text-label-md">+12%</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-1">Total Properties</p>
+<h3 class="text-3xl font-bold text-on-surface">1,284</h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl relative overflow-hidden group transition-all hover:border-primary-fixed/30">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary-fixed text-3xl" data-icon="check_circle">check_circle</span>
+<span class="text-primary-fixed font-label-md text-label-md">94%</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-1">Active Listings</p>
+<h3 class="text-3xl font-bold text-on-surface">1,208</h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl relative overflow-hidden group transition-all hover:border-primary-fixed/30">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-tertiary-fixed text-3xl" data-icon="pending">pending</span>
+<span class="text-tertiary-fixed font-label-md text-label-md">Pending Review</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-1">Queue Size</p>
+<h3 class="text-3xl font-bold text-on-surface">42</h3>
+</div>
+<div class="bg-surface-container-low border border-outline-variant p-6 rounded-xl relative overflow-hidden group transition-all hover:border-primary-fixed/30">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-error text-3xl" data-icon="warning">warning</span>
+<span class="text-error font-label-md text-label-md">High Priority</span>
+</div>
+<p class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider mb-1">Reported Listings</p>
+<h3 class="text-3xl font-bold text-on-surface">15</h3>
+</div>
+</div>
+<!-- Professional Data Table -->
+<div class="bg-surface-container-low border border-outline-variant rounded-2xl overflow-hidden shadow-2xl">
+<!-- Table Controls -->
+<div class="p-6 border-b border-outline-variant flex justify-between items-center bg-surface-container/50 backdrop-blur-sm">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-2 rounded-lg border border-outline-variant">
+<input class="w-4 h-4 rounded border-outline bg-surface-container text-primary-container focus:ring-primary-fixed transition-all cursor-pointer" type="checkbox"/>
+<span class="font-label-md text-label-md text-on-surface-variant">Select All</span>
+</div>
+<div class="h-6 w-px bg-outline-variant"></div>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-colors font-label-md text-label-md disabled:opacity-30" disabled="" id="bulk-approve">
+<span class="material-symbols-outlined" data-icon="task_alt">task_alt</span>
+                        Approve
+                    </button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-error transition-colors font-label-md text-label-md disabled:opacity-30" disabled="" id="bulk-suspend">
+<span class="material-symbols-outlined" data-icon="block">block</span>
+                        Suspend
+                    </button>
+<button class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md disabled:opacity-30" disabled="" id="bulk-delete">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+                        Delete
+                    </button>
+</div>
+<div class="flex items-center gap-4">
+<p class="font-label-md text-label-md text-on-surface-variant">Showing 1-10 of 1,284</p>
+<div class="flex gap-1">
+<button class="p-1.5 rounded bg-surface-container border border-outline-variant hover:bg-surface-container-high disabled:opacity-20"><span class="material-symbols-outlined" data-icon="chevron_left">chevron_left</span></button>
+<button class="p-1.5 rounded bg-surface-container border border-outline-variant hover:bg-surface-container-high"><span class="material-symbols-outlined" data-icon="chevron_right">chevron_right</span></button>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead class="bg-surface-container-high/30">
+<tr>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider"></th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Property</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Owner</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">City</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Price</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-center">Status</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-right">Engagement</th>
+<th class="py-4 px-6 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider text-center">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/30">
+<!-- Row 1 -->
+<tr class="group hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6">
+<input class="listing-checkbox w-4 h-4 rounded border-outline bg-surface-container text-primary-container focus:ring-primary-fixed transition-all cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-12 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A luxurious modern architectural villa with expansive floor-to-ceiling glass walls, a glowing infinity pool at dusk, and manicured minimalist landscaping. The scene is shot with high-end architectural photography techniques, featuring cool evening tones, sharp geometric lines, and a sense of exclusive serenity. The lighting is warm from within the house, creating a beautiful contrast against the deep twilight sky." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7QvP6ygEIX3vG0Py9QaPjmkeRyckb-KCvXgefynQbXAZmmWrJDaA4ZQWmfCXSKWhIiRHK4dt0bXnIeU6XOYu_By2wPxBHA3mMt_yY0mvaR6pbAaKdIBYFiR0Iwbk831-qG3hOmWHEa1_ulnLJ9c3LJBGkRBG4hP2e46yWhjQx2QAI3jGurL27unimaaFrXdxqAPfy3NsPum1qh77RaZ_p_cSwrHm8LdIfk3xMfFscfSfH974XYwau"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">The Obsidian Heights</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Listing ID: #PH-2041</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Alex Sterling</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Los Angeles</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface text-right font-mono">$12,450,000</td>
+<td class="py-4 px-6 text-center">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-primary-container/20 text-primary-fixed border border-primary-fixed/30">Active</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex flex-col items-end">
+<p class="font-body-md text-body-md text-on-surface">4.2k Views</p>
+<p class="font-label-md text-label-md text-error">0 Reports</p>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="View Details"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="Approve"><span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-error transition-all" title="Suspend"><span class="material-symbols-outlined text-lg" data-icon="do_not_disturb_on">do_not_disturb_on</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="group hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6">
+<input class="listing-checkbox w-4 h-4 rounded border-outline bg-surface-container text-primary-container focus:ring-primary-fixed transition-all cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-12 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Ultra-luxury penthouse interior with a double-height ceiling, floating sculptural staircase, and panoramic windows overlooking a neon-lit futuristic city skyline at night. The interior design is starkly minimalist with polished marble floors and charcoal velvet textures. The atmosphere is tech-forward and expensive, with subtle green accent lighting integrated into the architecture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCC6wgsEm_6yBGagfAbHbs5tdECRAka6c4UxDGClYeMRhLLO0uIhmc4D-FVvPv4KQ5GRRTBmDtGxCeuGm85G4Sre8smrt3TVZZcx4KsZLXLNHu0Xq5k9XhW3St0VJ6ntgKZR0cMcCGuFz_NBez1OmaFUlzhhaS7ypO9sZ91zOPEUN9jWG0EPRNs_7b19LQehUcCxlal1yToGZRRn6ZV71vcsaJeiampqeMolX6eTWesZMn8AlqAs3pl"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Emerald Skyline Loft</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Listing ID: #SL-8812</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Marina Vosh</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Miami</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface text-right font-mono">$4,820,000</td>
+<td class="py-4 px-6 text-center">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-tertiary-container/20 text-tertiary-fixed border border-tertiary-fixed/30">Pending</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex flex-col items-end">
+<p class="font-body-md text-body-md text-on-surface">842 Views</p>
+<p class="font-label-md text-label-md text-error">0 Reports</p>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="View Details"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="Approve"><span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-error transition-all" title="Suspend"><span class="material-symbols-outlined text-lg" data-icon="do_not_disturb_on">do_not_disturb_on</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="group hover:bg-surface-container-high/40 transition-colors">
+<td class="py-4 px-6">
+<input class="listing-checkbox w-4 h-4 rounded border-outline bg-surface-container text-primary-container focus:ring-primary-fixed transition-all cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-12 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A brutalist concrete mansion integrated into a rugged coastal cliffside, featuring sharp cantilevered balconies and dark steel frames. The ocean waves crash against the rocks below in a powerful, moody scene under an overcast grey sky. The lighting is natural and dramatic, highlighting the raw textures of the concrete and the wild natural environment. Luxury meets industrial edge in this high-stakes property." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-QRkwZb6ZxP1yqD950FgsVIXivGiFUhQ4S87ObYKHKYbVoA0kDA5ib6tAB9rY6HTC4pbM3wZb9gH8r-D9axRfgdkv80TlBXvbdgmEbICgMOkvayqQwGNWPpRs-cRzzYCqGQ0xvMJNlA1YKa2wvRh4Zn3FJyRwD-l_xM5Vs-5GI5-yu5PIzGssRdIBw02cDtjJlhp0RQKzSCW2A-noIGVcp4skP8ZSIFYdmmUycXvWzqgiN1WRUSKX"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Cliffside Brutalist</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Listing ID: #CB-1102</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Julian Thorne</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Malibu</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface text-right font-mono">$18,900,000</td>
+<td class="py-4 px-6 text-center">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-error-container/20 text-error border border-error/30">Rejected</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex flex-col items-end">
+<p class="font-body-md text-body-md text-on-surface">3.1k Views</p>
+<p class="font-label-md text-label-md text-error font-bold">12 Reports</p>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="View Details"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="Approve"><span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-error transition-all" title="Suspend"><span class="material-symbols-outlined text-lg" data-icon="do_not_disturb_on">do_not_disturb_on</span></button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="group hover:bg-surface-container-high/40 transition-colors border-b-0">
+<td class="py-4 px-6">
+<input class="listing-checkbox w-4 h-4 rounded border-outline bg-surface-container text-primary-container focus:ring-primary-fixed transition-all cursor-pointer" type="checkbox"/>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center gap-4">
+<div class="w-16 h-12 rounded-lg bg-surface-container-highest overflow-hidden flex-shrink-0 border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="High-tech minimalist office complex with a sleek facade of iridescent glass and dark carbon fiber. The building is surrounded by a futuristic zen garden with geometric benches and soft glowing pathways. Captured in the early morning 'blue hour', the scene radiates a sense of quiet innovation and corporate excellence. The architectural details are sharp and precise, epitomizing modern commercial luxury." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeHtRIsaHgFGZ0lHEQbpc7ifBicOSdUIKtZCUkPa5GlVluCf4VwhuPvkvTSnsV5Drg-EE2ZSRJPIMRK3BhZpyaThL1UvKQIzJyN_qhBoBeuJUclB7-he6dD-efROM74Gzahlugyg6Ve7e-iVMQ8COAdK4WZ3USU8jWXHEYeviWUuadbWyNNWKo6jzTe246qbnKylkvPJyZEB-jHGsakDWus-h83_PFErdCeq-RXF_q9wiDyVKpff6F"/>
+</div>
+<div>
+<p class="font-body-md text-body-md text-on-surface font-semibold">Carbon HQ Complex</p>
+<p class="font-label-md text-label-md text-on-surface-variant">Listing ID: #HQ-9901</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Sarah Connor</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface">Austin</td>
+<td class="py-4 px-6 font-body-md text-body-md text-on-surface text-right font-mono">$32,500,000</td>
+<td class="py-4 px-6 text-center">
+<span class="px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-primary-container/20 text-primary-fixed border border-primary-fixed/30">Active</span>
+</td>
+<td class="py-4 px-6 text-right">
+<div class="flex flex-col items-end">
+<p class="font-body-md text-body-md text-on-surface">1.9k Views</p>
+<p class="font-label-md text-label-md text-error">0 Reports</p>
+</div>
+</td>
+<td class="py-4 px-6">
+<div class="flex items-center justify-center gap-2">
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="View Details"><span class="material-symbols-outlined text-lg" data-icon="visibility">visibility</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-primary-fixed transition-all" title="Approve"><span class="material-symbols-outlined text-lg" data-icon="check_circle">check_circle</span></button>
+<button class="p-2 rounded-lg hover:bg-surface-container-highest text-on-surface-variant hover:text-error transition-all" title="Suspend"><span class="material-symbols-outlined text-lg" data-icon="do_not_disturb_on">do_not_disturb_on</span></button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Footer Pagination -->
+<div class="px-6 py-4 border-t border-outline-variant bg-surface-container/30 flex justify-between items-center">
+<div class="flex items-center gap-2">
+<p class="font-label-md text-label-md text-on-surface-variant">Rows per page:</p>
+<select class="bg-surface-container border-outline-variant rounded px-2 py-1 text-label-md focus:ring-0 focus:border-primary-fixed">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-3 py-1 rounded border border-outline-variant bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors">1</button>
+<button class="px-3 py-1 rounded border border-primary-fixed bg-primary-container/10 text-primary-fixed">2</button>
+<button class="px-3 py-1 rounded border border-outline-variant bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors">3</button>
+<span class="px-2 text-on-surface-variant">...</span>
+<button class="px-3 py-1 rounded border border-outline-variant bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors">128</button>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple logic for selection interaction
+        const checkboxes = document.querySelectorAll('.listing-checkbox');
+        const bulkButtons = ['bulk-approve', 'bulk-suspend', 'bulk-delete'];
+        
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', () => {
+                const anyChecked = Array.from(checkboxes).some(c => c.checked);
+                bulkButtons.forEach(id => {
+                    document.getElementById(id).disabled = !anyChecked;
+                    if (anyChecked) {
+                        document.getElementById(id).classList.remove('opacity-30');
+                    } else {
+                        document.getElementById(id).classList.add('opacity-30');
+                    }
+                });
+            });
+        });
+
+        // Search highlight effect
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('ring-primary-fixed');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('ring-primary-fixed');
+        });
+    </script>
+</body></html>

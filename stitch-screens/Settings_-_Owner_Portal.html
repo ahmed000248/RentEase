@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Settings | Owner Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Hanken+Grotesk:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#343537",
+                    "on-surface": "#e3e2e5",
+                    "background": "#121315",
+                    "tertiary": "#fff9f4",
+                    "on-secondary": "#2f3133",
+                    "error": "#ffb4ab",
+                    "error-container": "#93000a",
+                    "surface-container-high": "#292a2c",
+                    "secondary-fixed": "#e2e2e5",
+                    "primary-fixed": "#6bff83",
+                    "tertiary-container": "#ffd892",
+                    "primary-container": "#00ff66",
+                    "surface-tint": "#00e55b",
+                    "outline": "#849581",
+                    "on-primary": "#003911",
+                    "on-primary-fixed": "#002107",
+                    "on-primary-container": "#007128",
+                    "inverse-surface": "#e3e2e5",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#b9ccb5",
+                    "surface": "#121315",
+                    "on-tertiary-fixed-variant": "#5c4209",
+                    "on-secondary-fixed": "#1a1c1e",
+                    "surface-container-lowest": "#0d0e10",
+                    "on-tertiary-fixed": "#271900",
+                    "on-secondary-fixed-variant": "#454749",
+                    "primary-fixed-dim": "#00e55b",
+                    "on-tertiary-container": "#795d23",
+                    "surface-dim": "#121315",
+                    "secondary": "#c6c6c9",
+                    "on-error": "#690005",
+                    "on-tertiary": "#412d00",
+                    "on-primary-fixed-variant": "#00531b",
+                    "on-background": "#e3e2e5",
+                    "surface-container-low": "#1b1c1e",
+                    "secondary-container": "#454749",
+                    "tertiary-fixed": "#ffdea5",
+                    "tertiary-fixed-dim": "#e7c17d",
+                    "inverse-on-surface": "#303033",
+                    "primary": "#edffe8",
+                    "secondary-fixed-dim": "#c6c6c9",
+                    "on-secondary-container": "#b4b5b7",
+                    "inverse-primary": "#006e27",
+                    "outline-variant": "#3b4b3a",
+                    "surface-container": "#1f2022",
+                    "surface-container-highest": "#343537",
+                    "surface-bright": "#38393b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "margin-desktop": "40px",
+                    "container-max": "1440px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "16px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Hanken Grotesk"],
+                    "headline-lg": ["Hanken Grotesk"],
+                    "body-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0d0e10;
+            color: #e3e2e5;
+            -webkit-font-smoothing: antialiased;
+        }
+        .neon-glow:focus {
+            box-shadow: 0 0 15px rgba(107, 255, 131, 0.2);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #121315;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3b4b3a;
+            border-radius: 10px;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #00ff66;
+        }
+        .toggle-checkbox:checked + .toggle-label:after {
+            left: calc(100% - 2px);
+            transform: translateX(-100%);
+        }
+        .toggle-label:after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background: #002107;
+            border-radius: 90px;
+            transition: 0.3s;
+        }
+        .glass-card {
+            background: rgba(26, 28, 30, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(44, 46, 51, 0.5);
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="h-full w-64 fixed left-0 top-0 border-r border-outline-variant bg-surface-container-lowest flex flex-col py-8 px-4 z-50">
+<div class="mb-12 px-4">
+<h1 class="text-primary-fixed font-headline-md font-bold uppercase tracking-widest">OWNER PORTAL</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Premium Management</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-fixed">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-fixed">list_alt</span>
+<span class="font-label-md text-label-md">Listings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-fixed">analytics</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-fixed">chat_bubble</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all duration-200 rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary-fixed">calendar_today</span>
+<span class="font-label-md text-label-md">Calendar</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-primary-fixed bg-surface-container-highest rounded-lg border-l-4 border-primary-fixed scale-95 transition-transform duration-150" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 border-t border-outline-variant/30 flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary-fixed font-bold">AR</div>
+<div class="flex flex-col">
+<span class="text-body-sm font-semibold">Ahmed Raza</span>
+<span class="text-[10px] text-on-surface-variant uppercase tracking-wider">Premium Owner</span>
+</div>
+</div>
+</aside>
+<!-- Main Canvas -->
+<main class="ml-64 min-h-screen flex flex-col relative">
+<!-- Top Navigation -->
+<header class="fixed top-0 right-0 w-[calc(100%-256px)] h-16 z-40 border-b border-outline-variant bg-surface-dim/90 backdrop-blur-xl flex justify-between items-center px-margin-desktop">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-xl border border-outline-variant/50 w-96">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-full placeholder:text-on-surface-variant" placeholder="Search properties, tenants..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="w-10 h-10 rounded-full flex items-center justify-center text-on-surface-variant hover:text-primary-fixed hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">help_outline</span>
+</button>
+</div>
+<button class="bg-primary-container text-on-primary font-label-md px-6 py-2 rounded-lg hover:brightness-110 transition-all">
+                    Add Listing
+                </button>
+</div>
+</header>
+<!-- Content Area -->
+<div class="mt-16 p-margin-desktop h-[calc(100vh-64px)] overflow-y-auto custom-scrollbar">
+<header class="mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-primary">Account Settings</h2>
+<p class="text-on-surface-variant font-body-md mt-1">Manage your professional profile and global preferences.</p>
+</header>
+<div class="flex flex-col lg:flex-row gap-gutter">
+<!-- Inner Sidebar Tabs -->
+<nav class="lg:w-48 flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-4 lg:pb-0 scrollbar-hide">
+<button class="flex items-center gap-3 px-4 py-3 bg-surface-container-highest text-primary-fixed rounded-xl font-label-md text-left whitespace-nowrap">
+                        Profile
+                    </button>
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl font-label-md text-left transition-colors whitespace-nowrap">
+                        Business
+                    </button>
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl font-label-md text-left transition-colors whitespace-nowrap">
+                        Notifications
+                    </button>
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl font-label-md text-left transition-colors whitespace-nowrap">
+                        Security
+                    </button>
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl font-label-md text-left transition-colors whitespace-nowrap">
+                        Billing
+                    </button>
+<button class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-low rounded-xl font-label-md text-left transition-colors whitespace-nowrap">
+                        Preferences
+                    </button>
+</nav>
+<!-- Settings Panels -->
+<div class="flex-1 space-y-stack-lg pb-10">
+<!-- Profile Information Section -->
+<section class="p-8 rounded-3xl bg-surface-container-low border border-outline-variant">
+<div class="flex justify-between items-center mb-stack-lg">
+<h3 class="font-headline-md text-headline-md">Profile Information</h3>
+<button class="text-primary-fixed font-label-md uppercase tracking-wider hover:underline">Edit Details</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-stack-lg">
+<div class="md:col-span-3 flex flex-col items-center gap-4">
+<div class="relative group">
+<div class="w-32 h-32 rounded-full overflow-hidden border-2 border-primary-fixed/20 p-1">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional headshot of a middle-aged South Asian male business owner wearing a sleek dark blazer. The lighting is dramatic and moody, set against a dark architectural background with subtle neon green highlights reflecting off a glass surface. The photography style is high-contrast, premium, and corporate modern, matching a luxury property management aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOIHndwbpUZaEUNUFSk1IONrJc8htu9L981LYJTLjZiRudS7BXiNk8m7vpeEZtkMLl3Q1jOgT_S3fCBEn7MEwWStshAiD8ccRYoHE9_eR44ltWyM8igRKPnMIX4XWkB9XfS4UoPxR9qUh0dUYRly3LkDCGs_GFpUUHTlfUM3JRhEBuuMW5aG6CRZq3x1X9ZNJKerHc5u2nSpJujpzUpPjwh7pn0gcw4texTnbFJr8guA1Q9IT-wUig"/>
+</div>
+<button class="absolute bottom-1 right-1 bg-primary-fixed text-on-primary-fixed w-10 h-10 rounded-full flex items-center justify-center border-4 border-surface-container-low group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">photo_camera</span>
+</button>
+</div>
+<div class="text-center">
+<p class="font-label-md text-on-surface uppercase mb-1">Avatar</p>
+<p class="text-on-surface-variant text-[10px]">JPG, PNG UP TO 2MB</p>
+</div>
+</div>
+<div class="md:col-span-9 grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase text-[10px] ml-1">Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus:border-primary-fixed focus:ring-0 text-body-md neon-glow transition-all" type="text" value="Ahmed Raza"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase text-[10px] ml-1">Email Address</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus:border-primary-fixed focus:ring-0 text-body-md neon-glow transition-all" type="email" value="ahmed@rentease.com"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase text-[10px] ml-1">Phone Number</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus:border-primary-fixed focus:ring-0 text-body-md neon-glow transition-all" type="tel" value="+1 (555) 000-0000"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase text-[10px] ml-1">Location</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus:border-primary-fixed focus:ring-0 text-body-md neon-glow transition-all" type="text" value="Downtown, City"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase text-[10px] ml-1">Bio / Professional Summary</label>
+<textarea class="w-full bg-surface-container-lowest border border-outline-variant rounded-xl px-4 py-3 focus:border-primary-fixed focus:ring-0 text-body-md neon-glow transition-all resize-none" rows="3">Luxury property owner specializing in high-rise residential developments with 10+ years of industry experience.</textarea>
+</div>
+</div>
+</div>
+</section>
+<!-- Notifications Section -->
+<section class="p-8 rounded-3xl bg-surface-container-low border border-outline-variant">
+<div class="mb-stack-lg">
+<h3 class="font-headline-md text-headline-md">Notification Preferences</h3>
+<p class="text-on-surface-variant font-body-sm mt-1">Control how you receive alerts and updates from the portal.</p>
+</div>
+<div class="space-y-6">
+<!-- Notification Group -->
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-lowest/50 border border-outline-variant/30">
+<div>
+<p class="font-body-md font-semibold text-on-surface">New Inquiries</p>
+<p class="text-body-sm text-on-surface-variant">Receive alerts when potential tenants message you.</p>
+</div>
+<div class="flex gap-10">
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">Email</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="email_inq" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="email_inq"></label>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">SMS</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="sms_inq" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="sms_inq"></label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-lowest/50 border border-outline-variant/30">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Payment Alerts</p>
+<p class="text-body-sm text-on-surface-variant">Get notified when a payment is processed or fails.</p>
+</div>
+<div class="flex gap-10">
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">Email</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="email_pay" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="email_pay"></label>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">SMS</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="sms_pay" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="sms_pay"></label>
+</div>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 rounded-2xl bg-surface-container-lowest/50 border border-outline-variant/30">
+<div>
+<p class="font-body-md font-semibold text-on-surface">Property Insights</p>
+<p class="text-body-sm text-on-surface-variant">Weekly analytics reports for your active listings.</p>
+</div>
+<div class="flex gap-10">
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">Email</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="email_ins" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="email_ins"></label>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-md text-on-surface-variant uppercase">SMS</span>
+<div class="relative inline-block w-10 h-5 align-middle select-none transition duration-200 ease-in">
+<input class="toggle-checkbox absolute block w-0 h-0 opacity-0" id="sms_ins" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-surface-container-high cursor-pointer border border-outline-variant/50" for="sms_ins"></label>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Danger Zone Section -->
+<section class="p-8 rounded-3xl bg-error-container/10 border border-error/20">
+<div class="mb-stack-md">
+<h3 class="font-headline-md text-headline-md text-error">Danger Zone</h3>
+<p class="text-on-error-container/80 font-body-sm mt-1">Actions performed here are permanent and cannot be undone.</p>
+</div>
+<div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="text-left w-full">
+<p class="font-body-md font-semibold">Delete Account</p>
+<p class="text-body-sm opacity-60">Permanently delete your profile and all associated property data.</p>
+</div>
+<button class="w-full md:w-auto px-8 py-3 bg-error text-on-error rounded-xl font-bold hover:bg-error-container transition-colors">
+                                Delete Account
+                            </button>
+</div>
+</section>
+<!-- Save Action Bar -->
+<div class="fixed bottom-8 right-8 z-50 flex gap-4">
+<button class="px-8 py-3 bg-surface-container-highest text-on-surface rounded-xl font-bold border border-outline-variant hover:bg-surface-bright transition-all shadow-xl">
+                            Discard Changes
+                        </button>
+<button class="px-8 py-3 bg-primary-container text-on-primary rounded-xl font-bold hover:brightness-110 transition-all shadow-[0_0_20px_rgba(0,255,102,0.3)]">
+                            Save Settings
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple micro-interaction for active state simulation
+        document.querySelectorAll('nav button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Clear active states
+                document.querySelectorAll('nav button').forEach(b => {
+                    b.classList.remove('bg-surface-container-highest', 'text-primary-fixed');
+                    b.classList.add('text-on-surface-variant');
+                });
+                // Set active
+                this.classList.remove('text-on-surface-variant');
+                this.classList.add('bg-surface-container-highest', 'text-primary-fixed');
+            });
+        });
+
+        // Add a subtle parallax effect to the main canvas
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            const glow = document.querySelector('.main-glow');
+            if (glow) {
+                glow.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+            }
+        });
+    </script>
+</body></html>

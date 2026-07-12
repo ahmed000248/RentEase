@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Dancing_Script, Outfit, Jost } from "next/font/google";
+import { Geist, Geist_Mono, Dancing_Script, Outfit, Jost, Hanken_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import SplashGate from "@/components/SplashGate";
 import { AuthProvider } from "@/lib/auth/AuthContext";
@@ -32,6 +32,18 @@ const jost = Jost({
   weight: ["500", "600", "700"],
 });
 
+const hankenGrotesk = Hanken_Grotesk({
+  variable: "--font-hanken-grotesk",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+});
+
 export const metadata: Metadata = {
   title: "RentEase - Find Your Perfect Rental Property",
   description: "High-performance property discovery and rental management platform.",
@@ -43,8 +55,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${dancingScript.variable} ${jost.variable} antialiased scroll-smooth`}>
+    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${dancingScript.variable} ${jost.variable} ${hankenGrotesk.variable} ${inter.variable} antialiased scroll-smooth`}>
       <head>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

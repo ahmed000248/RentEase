@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import OwnerSidebar from "./OwnerSidebar";
 import { AnimatePresence, animate, motion } from "framer-motion";
 import {
   Bell,
@@ -157,39 +158,7 @@ export default function OwnerDashboardClient({
   return (
     <div className="w-full min-h-screen bg-[#060606] p-4 sm:p-7 flex justify-center font-dashboard">
       <div className="w-full max-w-[1480px] flex flex-col lg:flex-row gap-5 bg-[#0c0c0c] border border-[#1e1e1e] rounded-[28px] p-4 sm:p-5 shadow-[0_40px_100px_rgba(0,0,0,0.55)]">
-        {/* SIDEBAR */}
-        <div className="flex-shrink-0 lg:w-[76px] w-full bg-[#131313] border border-[#232323] rounded-[22px] flex lg:flex-col items-center justify-between lg:justify-start px-3 lg:px-0 py-3 lg:py-5 gap-2">
-          <div className="w-[38px] h-[38px] rounded-[10px] bg-brand-green flex items-center justify-center font-heading font-bold text-[#0c0c0c] text-base lg:mb-4">
-            N
-          </div>
-
-          <div className="flex lg:flex-col items-center gap-1">
-            {NAV_ITEMS.map((item, i) => {
-              const Icon = item.icon;
-              const isActive = i === 0;
-              const content = (
-                <div
-                  className={`w-11 h-11 rounded-xl flex items-center justify-center transition-colors ${
-                    isActive ? "bg-brand-green text-[#0c0c0c]" : "text-[#7a7a7a] hover:bg-[#1c1c1c] hover:text-[#e8e8e8]"
-                  } ${!item.href ? "cursor-default" : "cursor-pointer"}`}
-                >
-                  <Icon className="w-[18px] h-[18px]" />
-                </div>
-              );
-              return item.href ? (
-                <Link key={item.label} href={item.href} aria-label={item.label} title={item.label}>
-                  {content}
-                </Link>
-              ) : (
-                <div key={item.label} aria-label={item.label} title={`${item.label} — coming soon`}>
-                  {content}
-                </div>
-              );
-            })}
-          </div>
-
-          <div className="hidden lg:block lg:flex-1" />
-        </div>
+        <OwnerSidebar active="dashboard" />
 
         {/* MAIN */}
         <div className="flex-1 min-w-0 flex flex-col gap-4">
@@ -331,9 +300,9 @@ export default function OwnerDashboardClient({
 
             {/* Side stat cards */}
             <div className="flex-1 flex flex-col gap-4">
-              <div
-                title="Coming soon"
-                className="flex-1 bg-gradient-to-br from-[#1b2a0c] to-[#0f1608] border border-[#2a3d15] rounded-2xl p-4.5 flex items-center gap-3 cursor-default hover:border-brand-green transition-colors"
+              <Link
+                href="/owner/properties/new"
+                className="flex-1 bg-gradient-to-br from-[#1b2a0c] to-[#0f1608] border border-[#2a3d15] rounded-2xl p-4.5 flex items-center gap-3 cursor-pointer hover:border-brand-green transition-colors"
               >
                 <div className="w-[42px] h-[42px] rounded-xl bg-brand-green flex items-center justify-center flex-shrink-0">
                   <Plus className="w-5 h-5 text-[#0c0c0c]" strokeWidth={2.4} />
@@ -342,7 +311,7 @@ export default function OwnerDashboardClient({
                   <div className="font-heading font-bold text-sm text-[#f4f4ef]">Add New Listing</div>
                   <div className="text-xs text-[#9db27a]">List a property in minutes</div>
                 </div>
-              </div>
+              </Link>
 
               <div className="flex-[1.6] bg-[#161b0e] border border-[#262f14] rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
                 <div className="flex items-center justify-between">
