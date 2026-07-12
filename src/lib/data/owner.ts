@@ -124,7 +124,7 @@ export function buildOwnerAnalytics(properties: PropertyDoc[]): OwnerAnalytics {
     return {
       label: MONTH_LABELS[idx],
       revenue: Math.round((monthlyBase * factor) / 10) * 10,
-      bookings: Math.max(1, Math.round((properties.length * 12 * factor))),
+      bookings: properties.length === 0 ? 0 : Math.max(1, Math.round(properties.length * 12 * factor)),
     };
   });
 
@@ -136,7 +136,7 @@ export function buildOwnerAnalytics(properties: PropertyDoc[]): OwnerAnalytics {
     return {
       label: `'${String(yearIdx).slice(-2)}`,
       revenue: Math.round((yearlyBase * growth) / 100) * 100,
-      bookings: Math.max(1, Math.round(properties.length * 90 * growth)),
+      bookings: properties.length === 0 ? 0 : Math.max(1, Math.round(properties.length * 90 * growth)),
     };
   });
 
