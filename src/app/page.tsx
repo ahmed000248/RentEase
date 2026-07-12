@@ -133,7 +133,10 @@ export default function Home() {
 
   // Initialize GSAP Title Intro scroll animations
   useEffect(() => {
-    if (skipIntro) {
+    const directSkip = typeof window !== "undefined" && 
+      (sessionStorage.getItem("hasSeenIntro") === "true" || document.documentElement.classList.contains("skip-intro"));
+
+    if (skipIntro || directSkip) {
       // Ensure the sticky header is visible when skipping intro
       gsap.set("header", { y: 0, opacity: 1 });
       return;
@@ -391,34 +394,32 @@ export default function Home() {
       </header>
 
       {/* Title Intro Section */}
-      {!skipIntro && (
-        <section
-          ref={introContainerRef}
-          className="intro-section relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#050505]"
-          style={{ perspective: "1000px" }}
-        >
-          {/* Title Content */}
-          <div className="absolute inset-0 z-10 flex items-center justify-center text-center select-none pointer-events-none px-6">
-            <h1
-              ref={introTitleRef}
-              className="text-[14vw] font-black uppercase tracking-tighter text-white drop-shadow-[0_15px_40px_rgba(0,0,0,0.6)] transform will-change-transform origin-center leading-none"
-              style={{ opacity: 0.95 }}
-            >
-              rentease
-            </h1>
-          </div>
-
-          {/* Description Content */}
-          <div
-            ref={introDescRef}
-            className="absolute bottom-16 md:bottom-24 z-20 text-center select-none pointer-events-none px-6 opacity-0 translate-y-10 scale-95 transform will-change-transform"
+      <section
+        ref={introContainerRef}
+        className="intro-section relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#050505]"
+        style={{ perspective: "1000px" }}
+      >
+        {/* Title Content */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center text-center select-none pointer-events-none px-6">
+          <h1
+            ref={introTitleRef}
+            className="text-[14vw] font-black uppercase tracking-tighter text-white drop-shadow-[0_15px_40px_rgba(0,0,0,0.6)] transform will-change-transform origin-center leading-none"
+            style={{ opacity: 0.95 }}
           >
-            <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-brand-green px-6 py-2.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md">
-              Curated Luxury • Direct Connections • Zero Commissions
-            </span>
-          </div>
-        </section>
-      )}
+            rentease
+          </h1>
+        </div>
+
+        {/* Description Content */}
+        <div
+          ref={introDescRef}
+          className="absolute bottom-16 md:bottom-24 z-20 text-center select-none pointer-events-none px-6 opacity-0 translate-y-10 scale-95 transform will-change-transform"
+        >
+          <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-brand-green px-6 py-2.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md">
+            Curated Luxury • Direct Connections • Zero Commissions
+          </span>
+        </div>
+      </section>
 
       {/* A. Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-20">
