@@ -1,6 +1,49 @@
 {
   "communities": {
     "0": [
+      "src_app_login_page",
+      "src_app_login_page_loginpage",
+      "src_app_login_page_metadata",
+      "src_components_auth_loginform",
+      "src_components_auth_loginform_ease",
+      "src_components_auth_loginform_fieldclass",
+      "src_components_auth_loginform_friendlyautherror",
+      "src_components_auth_loginform_inputclass",
+      "src_components_auth_loginform_loginform",
+      "src_components_auth_loginform_stats",
+      "src_components_property_favoritebutton",
+      "src_components_property_favoritebutton_favoritebutton",
+      "src_components_property_favoritebutton_favoritebuttonprops",
+      "src_components_property_ownercard",
+      "src_components_property_ownercard_ownercard",
+      "src_components_property_ownercard_ownercardprops",
+      "src_components_property_reviewssection",
+      "src_components_property_reviewssection_reviewssection",
+      "src_components_property_reviewssection_reviewssectionprops",
+      "src_components_property_starrating",
+      "src_components_property_starrating_starrating",
+      "src_components_property_starrating_starratingprops",
+      "src_lib_auth_authcontext",
+      "src_lib_auth_authcontext_authcontext",
+      "src_lib_auth_authcontext_authcontextvalue",
+      "src_lib_auth_authcontext_authprovider",
+      "src_lib_auth_authcontext_establishsession",
+      "src_lib_auth_authcontext_fetchuserdoc",
+      "src_lib_auth_authcontext_useauth",
+      "src_lib_firebase_client",
+      "src_lib_firebase_client_firebaseconfig",
+      "src_lib_firebase_client_getfirebaseapp",
+      "src_lib_firebase_client_getfirebaseauth",
+      "src_lib_firebase_client_getfirebasedb",
+      "src_lib_firebase_client_getfirebasestorage",
+      "src_lib_firebase_types_userdoc",
+      "src_lib_firebase_types_userrole",
+      "src_lib_format",
+      "src_lib_format_formatjoineddate",
+      "src_lib_format_formatrelativetime",
+      "src_lib_format_maskphone"
+    ],
+    "1": [
       "src_app_api_auth_me_route",
       "src_app_api_auth_me_route_get",
       "src_app_api_auth_register_route",
@@ -20,93 +63,27 @@
       "src_app_owner_properties_new_page",
       "src_app_owner_properties_new_page_metadata",
       "src_app_owner_properties_new_page_newlistingpage",
-      "src_app_properties_page",
-      "src_app_properties_page_metadata",
-      "src_app_properties_page_pageprops",
-      "src_app_properties_page_propertiespage",
-      "src_components_property_listingcontrols",
-      "src_components_property_listingcontrols_listingcontrols",
-      "src_components_property_propertyfilters",
-      "src_components_property_propertyfilters_bedroom_options",
-      "src_components_property_propertyfilters_furnishing_options",
-      "src_components_property_propertyfilters_preferred_for_options",
-      "src_components_property_propertyfilters_propertyfilters",
-      "src_components_property_propertyfilters_propertyfiltersprops",
       "src_components_ui_backendnotconfigured",
       "src_components_ui_backendnotconfigured_backendnotconfigured",
       "src_lib_auth_constants",
       "src_lib_auth_server",
       "src_lib_auth_server_getcurrentuser",
+      "src_lib_auth_server_getsessionclaims",
       "src_lib_auth_server_requireadmin",
       "src_lib_auth_server_requirerole",
       "src_lib_auth_server_requireuser",
-      "src_lib_data_owner",
-      "src_lib_data_owner_buildowneranalytics",
-      "src_lib_data_owner_formatmoney",
       "src_lib_data_owner_getinquiriesforowner",
       "src_lib_data_owner_getpropertiesbyowner",
-      "src_lib_data_owner_hashstring",
-      "src_lib_data_owner_month_labels",
-      "src_lib_data_owner_owneranalytics",
       "src_lib_firebase_admin",
       "src_lib_firebase_admin_adminauth",
       "src_lib_firebase_admin_adminstorage",
       "src_lib_firebase_admin_getadminapp",
-      "src_lib_firebase_admin_isadminconfigured",
       "src_lib_firebase_admin_loadserviceaccount",
       "src_proxy",
       "src_proxy_auth_only_prefixes",
       "src_proxy_config",
       "src_proxy_guest_only_paths",
       "src_proxy_proxy"
-    ],
-    "1": [
-      "animejs",
-      "firebase",
-      "firebase_admin",
-      "framer_motion",
-      "gsap",
-      "lenis",
-      "lucide_react",
-      "next",
-      "package_dependencies",
-      "package_dependencies_animejs",
-      "package_dependencies_firebase",
-      "package_dependencies_firebase_admin",
-      "package_dependencies_framer_motion",
-      "package_dependencies_gsap",
-      "package_dependencies_lenis",
-      "package_dependencies_lucide_react",
-      "package_dependencies_next",
-      "package_dependencies_postcss",
-      "package_dependencies_react",
-      "package_dependencies_react_dom",
-      "package_dependencies_react_three_drei",
-      "package_dependencies_react_three_fiber",
-      "package_dependencies_server_only",
-      "package_dependencies_tailwindcss",
-      "package_dependencies_tailwindcss_postcss",
-      "package_dependencies_three",
-      "postcss",
-      "react",
-      "react_dom",
-      "react_three_drei",
-      "react_three_fiber",
-      "server_only",
-      "src_app_page",
-      "src_app_page_accordions",
-      "src_app_page_containervariants",
-      "src_app_page_easepremium",
-      "src_app_page_expandedcard",
-      "src_app_page_featured_properties",
-      "src_app_page_home",
-      "src_app_page_itemvariants",
-      "src_app_page_latest_listings",
-      "src_app_page_pricecounter",
-      "src_app_page_revealvariants",
-      "tailwindcss",
-      "tailwindcss_postcss",
-      "three"
     ],
     "2": [
       "src_components_owner_ownerdashboardclient",
@@ -128,16 +105,13 @@
       "src_components_owner_ownersidebar_navitem",
       "src_components_owner_ownersidebar_ownersidebar",
       "src_components_owner_ownersidebar_props",
-      "src_components_property_propertylistinggrid",
-      "src_components_property_propertylistinggrid_cardvariants",
-      "src_components_property_propertylistinggrid_containervariants",
-      "src_components_property_propertylistinggrid_ease",
-      "src_components_property_propertylistinggrid_expandedcard",
-      "src_components_property_propertylistinggrid_expandedstate",
-      "src_components_property_propertylistinggrid_pricecounter",
-      "src_components_property_propertylistinggrid_propertylistinggrid",
-      "src_lib_data_mockproperties_mockpropertydoc",
+      "src_lib_data_owner",
+      "src_lib_data_owner_buildowneranalytics",
+      "src_lib_data_owner_formatmoney",
+      "src_lib_data_owner_hashstring",
       "src_lib_data_owner_inquirywithtenant",
+      "src_lib_data_owner_month_labels",
+      "src_lib_data_owner_owneranalytics",
       "src_lib_data_owner_propertyoccupancy",
       "src_lib_data_owner_revenuepoint",
       "src_lib_firebase_types",
@@ -146,57 +120,49 @@
       "src_lib_firebase_types_inquirystatus",
       "src_lib_firebase_types_notificationdoc",
       "src_lib_firebase_types_notificationtype",
-      "src_lib_firebase_types_preferredfor",
       "src_lib_firebase_types_propertydoc",
       "src_lib_firebase_types_propertystatus",
       "src_lib_firebase_types_savedsearchdoc",
-      "src_lib_firebase_types_savedsearchfilters",
-      "src_lib_format_formatrelativetime",
-      "src_lib_format_titlecase"
+      "src_lib_firebase_types_savedsearchfilters"
     ],
     "3": [
-      "src_app_login_page",
-      "src_app_login_page_loginpage",
-      "src_app_login_page_metadata",
-      "src_components_auth_loginform",
-      "src_components_auth_loginform_ease",
-      "src_components_auth_loginform_fieldclass",
-      "src_components_auth_loginform_friendlyautherror",
-      "src_components_auth_loginform_inputclass",
-      "src_components_auth_loginform_loginform",
-      "src_components_auth_loginform_stats",
-      "src_components_property_favoritebutton",
-      "src_components_property_favoritebutton_favoritebutton",
-      "src_components_property_favoritebutton_favoritebuttonprops",
-      "src_components_property_ownercard",
-      "src_components_property_ownercard_ownercard",
-      "src_components_property_ownercard_ownercardprops",
-      "src_components_property_reviewssection",
-      "src_components_property_reviewssection_reviewssection",
-      "src_components_property_reviewssection_reviewssectionprops",
+      "src_app_properties_id_page",
+      "src_app_properties_id_page_amenity_icons",
+      "src_app_properties_id_page_amenityicon",
+      "src_app_properties_id_page_generatemetadata",
+      "src_app_properties_id_page_pageprops",
+      "src_app_properties_id_page_propertydetailpage",
+      "src_app_properties_page",
+      "src_app_properties_page_metadata",
+      "src_app_properties_page_pageprops",
+      "src_app_properties_page_propertiespage",
+      "src_components_property_listingcontrols",
+      "src_components_property_listingcontrols_listingcontrols",
+      "src_components_property_propertygallery",
+      "src_components_property_propertygallery_propertygallery",
       "src_components_property_reviewssection_reviewwithauthor",
-      "src_components_property_starrating",
-      "src_components_property_starrating_starrating",
-      "src_components_property_starrating_starratingprops",
-      "src_lib_auth_authcontext",
-      "src_lib_auth_authcontext_authcontext",
-      "src_lib_auth_authcontext_authcontextvalue",
-      "src_lib_auth_authcontext_authprovider",
-      "src_lib_auth_authcontext_establishsession",
-      "src_lib_auth_authcontext_fetchuserdoc",
-      "src_lib_auth_authcontext_useauth",
-      "src_lib_firebase_client",
-      "src_lib_firebase_client_firebaseconfig",
-      "src_lib_firebase_client_getfirebaseapp",
-      "src_lib_firebase_client_getfirebaseauth",
-      "src_lib_firebase_client_getfirebasedb",
-      "src_lib_firebase_client_getfirebasestorage",
+      "src_components_ui_breadcrumb",
+      "src_components_ui_breadcrumb_breadcrumb",
+      "src_components_ui_breadcrumb_breadcrumbitem",
+      "src_lib_data_mockproperties",
+      "src_lib_data_mockproperties_mock_owner",
+      "src_lib_data_mockproperties_mock_properties",
+      "src_lib_data_mockproperties_mock_reviews",
+      "src_lib_data_mockproperties_mock_tenants",
+      "src_lib_data_mockproperties_mockpropertydoc",
+      "src_lib_data_properties",
+      "src_lib_data_properties_getproperties",
+      "src_lib_data_properties_getpropertybyid",
+      "src_lib_data_properties_getreviewersbyid",
+      "src_lib_data_properties_getreviewsforproperty",
+      "src_lib_data_properties_getuserbyid",
+      "src_lib_data_properties_ispropertyfavorited",
+      "src_lib_data_properties_viewer",
+      "src_lib_firebase_admin_admindb",
+      "src_lib_firebase_admin_isadminconfigured",
+      "src_lib_firebase_types_preferredfor",
       "src_lib_firebase_types_reviewdoc",
-      "src_lib_firebase_types_userdoc",
-      "src_lib_firebase_types_userrole",
-      "src_lib_format",
-      "src_lib_format_formatjoineddate",
-      "src_lib_format_maskphone"
+      "src_lib_format_formatprice"
     ],
     "4": [
       "src_components_owner_listingwizardclient",
@@ -238,6 +204,41 @@
       "src_lib_firebase_types_propertytype"
     ],
     "5": [
+      "animejs",
+      "firebase",
+      "firebase_admin",
+      "framer_motion",
+      "gsap",
+      "lucide_react",
+      "next",
+      "package_dependencies",
+      "package_dependencies_animejs",
+      "package_dependencies_firebase",
+      "package_dependencies_firebase_admin",
+      "package_dependencies_framer_motion",
+      "package_dependencies_gsap",
+      "package_dependencies_lucide_react",
+      "package_dependencies_next",
+      "package_dependencies_postcss",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_three_drei",
+      "package_dependencies_react_three_fiber",
+      "package_dependencies_server_only",
+      "package_dependencies_tailwindcss",
+      "package_dependencies_tailwindcss_postcss",
+      "package_dependencies_three",
+      "postcss",
+      "react",
+      "react_dom",
+      "react_three_drei",
+      "react_three_fiber",
+      "server_only",
+      "tailwindcss",
+      "tailwindcss_postcss",
+      "three"
+    ],
+    "6": [
       "ref_dom",
       "ref_dom_iterable",
       "ref_esnext",
@@ -271,7 +272,7 @@
       "tsconfig_include",
       "tsconfig_paths"
     ],
-    "6": [
+    "7": [
       "dotenv",
       "eslint",
       "eslint_config_next",
@@ -304,35 +305,6 @@
       "types_three",
       "typescript"
     ],
-    "7": [
-      "src_app_properties_id_page",
-      "src_app_properties_id_page_amenity_icons",
-      "src_app_properties_id_page_amenityicon",
-      "src_app_properties_id_page_generatemetadata",
-      "src_app_properties_id_page_pageprops",
-      "src_app_properties_id_page_propertydetailpage",
-      "src_components_property_propertygallery",
-      "src_components_property_propertygallery_propertygallery",
-      "src_components_ui_breadcrumb",
-      "src_components_ui_breadcrumb_breadcrumb",
-      "src_components_ui_breadcrumb_breadcrumbitem",
-      "src_lib_auth_server_getsessionclaims",
-      "src_lib_data_mockproperties",
-      "src_lib_data_mockproperties_mock_owner",
-      "src_lib_data_mockproperties_mock_properties",
-      "src_lib_data_mockproperties_mock_reviews",
-      "src_lib_data_mockproperties_mock_tenants",
-      "src_lib_data_properties",
-      "src_lib_data_properties_getproperties",
-      "src_lib_data_properties_getpropertybyid",
-      "src_lib_data_properties_getreviewersbyid",
-      "src_lib_data_properties_getreviewsforproperty",
-      "src_lib_data_properties_getuserbyid",
-      "src_lib_data_properties_ispropertyfavorited",
-      "src_lib_data_properties_viewer",
-      "src_lib_firebase_admin_admindb",
-      "src_lib_format_formatprice"
-    ],
     "8": [
       "src_app_layout",
       "src_app_layout_dancingscript",
@@ -354,6 +326,21 @@
       "src_components_splashscreen_splashscreenprops"
     ],
     "9": [
+      "lenis",
+      "package_dependencies_lenis",
+      "src_app_page",
+      "src_app_page_accordions",
+      "src_app_page_containervariants",
+      "src_app_page_easepremium",
+      "src_app_page_expandedcard",
+      "src_app_page_featured_properties",
+      "src_app_page_home",
+      "src_app_page_itemvariants",
+      "src_app_page_latest_listings",
+      "src_app_page_pricecounter",
+      "src_app_page_revealvariants"
+    ],
+    "10": [
       "public_property_penthouse",
       "public_property_villa",
       "scripts_stitch_html_step_1",
@@ -365,7 +352,7 @@
       "temp_stitch_step2",
       "temp_stitch_step3"
     ],
-    "10": [
+    "11": [
       "rentease_api_publish",
       "rentease_listing_wizard",
       "rentease_ui_amenities",
@@ -376,7 +363,18 @@
       "temp_stitch_step5",
       "temp_stitch_success"
     ],
-    "11": [
+    "12": [
+      "src_components_property_propertylistinggrid",
+      "src_components_property_propertylistinggrid_cardvariants",
+      "src_components_property_propertylistinggrid_containervariants",
+      "src_components_property_propertylistinggrid_ease",
+      "src_components_property_propertylistinggrid_expandedcard",
+      "src_components_property_propertylistinggrid_expandedstate",
+      "src_components_property_propertylistinggrid_pricecounter",
+      "src_components_property_propertylistinggrid_propertylistinggrid",
+      "src_lib_format_titlecase"
+    ],
+    "13": [
       "scripts_seed",
       "scripts_seed_app",
       "scripts_seed_auth",
@@ -385,7 +383,7 @@
       "scripts_seed_seedproperty",
       "scripts_seed_upsertuser"
     ],
-    "12": [
+    "14": [
       "temp_stitch_download",
       "temp_stitch_download_download",
       "temp_stitch_download_fs",
@@ -394,7 +392,7 @@
       "temp_stitch_download_run",
       "temp_stitch_download_urls"
     ],
-    "13": [
+    "15": [
       "scripts_download_stitch",
       "scripts_download_stitch_fs",
       "scripts_download_stitch_https",
@@ -402,86 +400,97 @@
       "scripts_download_stitch_path",
       "scripts_download_stitch_screens"
     ],
-    "14": [
+    "16": [
+      "src_components_property_propertyfilters",
+      "src_components_property_propertyfilters_bedroom_options",
+      "src_components_property_propertyfilters_furnishing_options",
+      "src_components_property_propertyfilters_preferred_for_options",
+      "src_components_property_propertyfilters_propertyfilters",
+      "src_components_property_propertyfilters_propertyfiltersprops"
+    ],
+    "17": [
       "src_app_owner_layout",
       "src_app_owner_layout_inter",
       "src_app_owner_layout_ownerlayout",
       "src_app_owner_layout_spacegrotesk"
     ],
-    "15": [
+    "18": [
       "claude",
-      "requirements",
-      "requirements_update"
+      "claude_graphify"
     ],
-    "16": [
+    "19": [
       "eslint_config",
       "eslint_config_eslintconfig"
     ],
-    "17": [
+    "20": [
       "next_config",
       "next_config_nextconfig"
     ],
-    "18": [
+    "21": [
       "postcss_config",
       "postcss_config_config"
     ],
-    "19": [
+    "22": [
+      "requirements",
+      "requirements_update"
+    ],
+    "23": [
       "scripts_debug_download",
       "scripts_debug_download_https"
     ],
-    "20": [
+    "24": [
       "public_file_svg"
     ],
-    "21": [
+    "25": [
       "public_globe_svg"
     ],
-    "22": [
+    "26": [
       "public_hero_background"
     ],
-    "23": [
+    "27": [
       "public_intro_villa"
     ],
-    "24": [
+    "28": [
       "public_next_svg"
     ],
-    "25": [
+    "29": [
       "public_property_apartment"
     ],
-    "26": [
+    "30": [
       "public_sky_background"
     ],
-    "27": [
+    "31": [
       "public_vercel_svg"
     ],
-    "28": [
+    "32": [
       "public_villa_cutout"
     ],
-    "29": [
+    "33": [
       "public_window_svg"
     ],
-    "30": [
+    "34": [
       "scripts_stitch_html_image_urls"
     ]
   },
   "cohesion": {
-    "0": 0.06896551724137931,
-    "1": 0.043478260869565216,
-    "2": 0.06448202959830866,
-    "3": 0.09639953542392567,
+    "0": 0.10121951219512196,
+    "1": 0.1,
+    "2": 0.08392603129445235,
+    "3": 0.1066066066066066,
     "4": 0.0945945945945946,
-    "5": 0.0625,
-    "6": 0.06451612903225806,
-    "7": 0.14814814814814814,
+    "5": 0.06060606060606061,
+    "6": 0.0625,
+    "7": 0.06451612903225806,
     "8": 0.12418300653594772,
-    "9": 0.2,
-    "10": 0.3055555555555556,
-    "11": 0.38095238095238093,
-    "12": 0.3333333333333333,
-    "13": 0.3333333333333333,
-    "14": 0.5,
-    "15": 0.6666666666666666,
-    "16": 1.0,
-    "17": 1.0,
+    "9": 0.15384615384615385,
+    "10": 0.2,
+    "11": 0.3055555555555556,
+    "12": 0.25,
+    "13": 0.38095238095238093,
+    "14": 0.3333333333333333,
+    "15": 0.3333333333333333,
+    "16": 0.3333333333333333,
+    "17": 0.5,
     "18": 1.0,
     "19": 1.0,
     "20": 1.0,
@@ -494,7 +503,11 @@
     "27": 1.0,
     "28": 1.0,
     "29": 1.0,
-    "30": 1.0
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0
   },
   "gods": [
     {
@@ -606,7 +619,7 @@
     }
   ],
   "tokens": {
-    "input": 85383,
-    "output": 2871
+    "input": 0,
+    "output": 0
   }
 }
