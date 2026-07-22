@@ -180,34 +180,173 @@ html.light body {
   background-color: #f8fafc;
   color: #0f172a;
 }
-html.light .bg-\[\#050505\],
-html.light .bg-\[\#080808\],
-html.light .bg-\[\#0a0a0a\],
-html.light .bg-\[\#0d0d0d\],
-html.light .bg-\[\#141417\],
-html.light .bg-\[\#121315\],
-html.light .bg-\[\#141414\] {
-  background-color: #ffffff !important;
-  color: #0f172a;
-  border-color: #e2e8f0;
-}
 html.light .text-white {
   color: #0f172a !important;
 }
 html.light .text-white\/70,
 html.light .text-white\/60,
-html.light .text-white\/50,
-html.light .text-\[\#b9ccb5\],
-html.light .text-\[\#7a7a7a\],
-html.light .text-\[\#8c8c8c\] {
+html.light .text-white\/50 {
   color: #475569 !important;
 }
 html.light .border-white\/5,
 html.light .border-white\/10,
 html.light .border-white\/12,
-html.light .border-white\/15,
+html.light .border-white\/15 {
+  border-color: #e2e8f0 !important;
+}
+
+/* ===== Comprehensive Light Theme Overrides ===== */
+/* Repaints the site's dark-mode-first utility classes while html has the `light` class. */
+
+/* --- Backgrounds: near-black surfaces -> white --- */
+html.light .bg-\[\#131313\],
+html.light .bg-\[\#1a1c1e\],
+html.light .bg-\[\#1f2022\],
+html.light .bg-\[\#141417\],
+html.light .bg-\[\#111113\],
+html.light .bg-\[\#0d0e10\],
+html.light .bg-\[\#1b1c1e\],
+html.light .bg-\[\#0d0d0d\],
+html.light .bg-\[\#060606\],
+html.light .bg-\[\#232323\],
+html.light .bg-\[\#141414\],
+html.light .bg-\[\#121315\],
+html.light .bg-\[\#0a0a0c\],
+html.light .bg-\[\#1c1c1c\],
+html.light .bg-\[\#1a1a1a\],
+html.light .bg-\[\#161616\],
+html.light .bg-\[\#080808\],
+html.light .bg-\[\#050505\],
+html.light .bg-\[\#0c0c0c\],
+html.light .bg-\[\#242424\],
+html.light .bg-\[\#222\],
+html.light .bg-\[\#1f1f1f\],
+html.light .bg-\[\#181818\],
+html.light .bg-\[\#17171b\],
+html.light .bg-\[\#141410\],
+html.light .bg-\[\#0d0d10\],
+html.light .bg-\[\#0a0a0a\],
+html.light .bg-\[\#090909\] {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a;
+}
+
+/* --- Backgrounds: dark mid-gray surfaces -> light slate --- */
+html.light .bg-\[\#343537\],
+html.light .bg-\[\#292a2c\],
+html.light .bg-\[\#2a2a30\],
+html.light .bg-\[\#4a5568\] {
+  background-color: #f1f5f9 !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a;
+}
+
+/* --- Hover backgrounds (dark) -> white/slate on hover --- */
+html.light .hover\:bg-\[\#1c1c1c\]:hover,
+html.light .hover\:bg-\[\#1a1c1e\]:hover,
+html.light .hover\:bg-\[\#1a1a1a\]:hover,
+html.light .hover\:bg-\[\#222\]:hover,
+html.light .hover\:bg-\[\#1f2022\]:hover,
+html.light .hover\:bg-\[\#111\]:hover {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html.light .hover\:bg-\[\#343537\]:hover,
+html.light .hover\:bg-\[\#292a2c\]:hover,
+html.light .hover\:bg-\[\#2a2a2a\]:hover {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* --- Gradient stops (dark) -> white --- */
+html.light .from-\[\#1f2022\],
+html.light .from-\[\#1b1c1e\],
+html.light .from-\[\#050505\] {
+  --tw-gradient-from: #ffffff !important;
+}
+
+html.light .to-\[\#131313\],
+html.light .to-\[\#050505\] {
+  --tw-gradient-to: #ffffff !important;
+}
+
+/* --- Error-container dark background -> light red tint --- */
+html.light .bg-\[\#93000a\] {
+  background-color: #fee2e2 !important;
+}
+
+/* --- Text: near-white / on-surface (dark-theme primary text) -> dark --- */
+html.light .text-\[\#e3e2e5\],
+html.light .text-\[\#f4f4ef\],
+html.light .text-\[\#e8e8e8\],
+html.light .text-\[\#f2f2f4\],
+html.light .text-\[\#e5e5e8\] {
+  color: #0f172a !important;
+}
+
+html.light .hover\:text-\[\#e8e8e8\]:hover,
+html.light .hover\:text-\[\#e3e2e5\]:hover {
+  color: #0f172a !important;
+}
+
+/* --- Text: muted/secondary light-gray (dark-theme secondary text) -> slate --- */
+html.light .text-\[\#ccc\],
+html.light .text-\[\#bbb\],
+html.light .text-\[\#aaa\],
+html.light .text-\[\#888\],
+html.light .text-\[\#d5d9d6\],
+html.light .text-\[\#cfd3d0\],
+html.light .text-\[\#c4c4ca\],
+html.light .text-\[\#9aa39d\],
+html.light .text-\[\#9a9a9a\],
+html.light .text-\[\#b9ccb5\],
+html.light .text-\[\#7a7a7a\],
+html.light .text-\[\#8a8f96\],
+html.light .text-\[\#9a9aa2\],
+html.light .text-\[\#777\],
+html.light .text-\[\#8c8c8c\],
+html.light .text-\[\#a0aec0\] {
+  color: #475569 !important;
+}
+
+/* --- Text: pale status (on-error-container) -> dark red --- */
+html.light .text-\[\#ffdad6\],
+html.light .text-\[\#ffb4ab\] {
+  color: #7f1d1d !important;
+}
+
+/* --- Borders: dark -> light neutral --- */
 html.light .border-\[\#232323\],
-html.light .border-\[\#3b4b3a\] {
+html.light .border-\[\#3b4b3a\],
+html.light .border-\[\#1f1f1f\],
+html.light .border-\[\#222\],
+html.light .border-\[\#2a2a2a\],
+html.light .border-\[\#262626\],
+html.light .border-\[\#1e1e1e\],
+html.light .border-\[\#1a1a1a\],
+html.light .border-\[\#2c2c2c\],
+html.light .border-\[\#1a1c1e\],
+html.light .border-\[\#0d0e10\] {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .hover\:border-\[\#333\]:hover,
+html.light .hover\:border-\[\#3a3a3a\]:hover {
+  border-color: #e2e8f0 !important;
+}
+
+html.light .focus\:border-\[\#444\]:focus {
+  border-color: #cbd5e1 !important;
+}
+
+/* --- Divide utilities (dark dividers) -> light --- */
+html.light :where(.divide-\[\#1a1a1a\] > :not(:last-child)) {
+  border-color: #e2e8f0 !important;
+}
+
+html.light :where(.divide-\[\#232323\]\/40 > :not(:last-child)) {
   border-color: #e2e8f0 !important;
 }
 
