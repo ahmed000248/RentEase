@@ -28,6 +28,7 @@ import {
   Star
 } from "lucide-react";
 import { MOCK_PROPERTIES, MockPropertyDoc } from "@/lib/data/mockProperties";
+import HeroScrollAnimation from "@/components/hero/HeroScrollAnimation";
 
 // Register GSAP ScrollTrigger
 if (typeof window !== "undefined") {
@@ -92,11 +93,6 @@ export default function Home() {
   const colossalTextRef = useRef<HTMLDivElement>(null);
   const footerSectionRef = useRef<HTMLDivElement>(null);
 
-  // New Title Intro Section Refs
-  const introContainerRef = useRef<HTMLDivElement>(null);
-  const introTitleRef = useRef<HTMLHeadingElement>(null);
-  const introDescRef = useRef<HTMLDivElement>(null);
-
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [skipIntro, setSkipIntro] = useState(false);
@@ -131,82 +127,7 @@ export default function Home() {
     };
   }, []);
 
-  // Initialize GSAP Title Intro scroll animations
-  useEffect(() => {
-    const directSkip = typeof window !== "undefined" && 
-      (sessionStorage.getItem("hasSeenIntro") === "true" || document.documentElement.classList.contains("skip-intro"));
 
-    if (skipIntro || directSkip) {
-      // Ensure the sticky header is visible when skipping intro
-      gsap.set("header", { y: 0, opacity: 1 });
-      return;
-    }
-    if (
-      !introContainerRef.current ||
-      !introTitleRef.current ||
-      !introDescRef.current
-    ) return;
-
-    let maxProgress = 0;
-
-    const ctx = gsap.context(() => {
-      // 1. Title Intro Timeline (Paused, controlled manually by ScrollTrigger update)
-      const tl = gsap.timeline({ paused: true });
-
-      // Scale up the title and animate it forward
-      tl.to(introTitleRef.current, {
-        scale: 1.45,
-        y: -40,
-        ease: "power2.out",
-      }, 0);
-
-      // Reveal secondary description text
-      tl.to(introDescRef.current, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        ease: "power2.out",
-      }, 0.25); // starts shortly after title starts scaling
-
-      // ScrollTrigger for pinning and one-way progress
-      ScrollTrigger.create({
-        trigger: introContainerRef.current,
-        start: "top top",
-        end: "+=100%", // Scroll depth for pinning
-        pin: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          // Only animate forward and lock the state; do not reverse when scrolling back up
-          if (self.progress > maxProgress) {
-            maxProgress = self.progress;
-            gsap.to(tl, {
-              progress: maxProgress,
-              duration: 0.2,
-              overwrite: "auto",
-              ease: "power1.out",
-            });
-          }
-        }
-      });
-
-      // 2. Hide / Reveal Sticky Header navigation as we scroll through Intro
-      gsap.fromTo("header",
-        { y: -100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          scrollTrigger: {
-            trigger: introContainerRef.current,
-            start: "bottom 95%",
-            end: "bottom 70%",
-            scrub: true,
-          }
-        }
-      );
-    });
-
-    return () => ctx.revert();
-  }, [skipIntro]);
 
   // Initialize GSAP Footer Animation
   useEffect(() => {
@@ -393,109 +314,8 @@ export default function Home() {
         </AnimatePresence>
       </header>
 
-      {/* Title Intro Section */}
-      <section
-        ref={introContainerRef}
-        className="intro-section relative w-full h-screen overflow-hidden flex items-center justify-center bg-[#050505]"
-        style={{ perspective: "1000px" }}
-      >
-        {/* Title Content */}
-        <div className="absolute inset-0 z-10 flex items-center justify-center text-center select-none pointer-events-none px-6">
-          <h1
-            ref={introTitleRef}
-            className="text-[14vw] font-black uppercase tracking-tighter text-white drop-shadow-[0_15px_40px_rgba(0,0,0,0.6)] transform will-change-transform origin-center leading-none"
-            style={{ opacity: 0.95 }}
-          >
-            rentease
-          </h1>
-        </div>
-
-        {/* Description Content */}
-        <div
-          ref={introDescRef}
-          className="absolute bottom-16 md:bottom-24 z-20 text-center select-none pointer-events-none px-6 opacity-0 translate-y-10 scale-95 transform will-change-transform"
-        >
-          <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-brand-green px-6 py-2.5 bg-black/40 border border-white/10 rounded-full backdrop-blur-md">
-            Curated Luxury • Direct Connections • Zero Commissions
-          </span>
-        </div>
-      </section>
-
-      {/* A. Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center pt-20">
-
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero_background.png"
-            alt="RentEase Hero Luxury Estate"
-            fill
-            priority
-            className="object-cover object-center brightness-[0.4]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-[#050505]/80" />
-        </div>
-
-        {/* Hero Content Container */}
-        <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-center"
-          >
-            {/* Minimal Badge */}
-            <motion.div
-              variants={itemVariants}
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 text-xs font-semibold text-brand-green mb-8"
-            >
-              <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
-              Direct Renting Redefined
-            </motion.div>
-
-            {/* Headline */}
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] mb-8 text-white max-w-4xl"
-            >
-              Find the <span className="font-script text-brand-green italic font-normal tracking-wide px-2">perfect</span> rental property.
-            </motion.h1>
-
-            {/* Sub-headline */}
-            <motion.p
-              variants={itemVariants}
-              className="text-lg md:text-xl text-white/70 max-w-2xl mb-12 font-light leading-relaxed"
-            >
-              Direct contact with owners. Verified luxury properties. Premium leasing simplified without standard broker commissions.
-            </motion.p>
-
-            {/* Hero Pill Button Interaction */}
-            <motion.div variants={itemVariants}>
-              <Link
-                href="#featured"
-                className="group inline-flex items-center gap-3 bg-brand-green text-black px-8 py-4 rounded-full text-base font-bold transition-all duration-300 hover:bg-white hover:text-black hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
-              >
-                <span>View Featured Properties</span>
-                <span className="relative flex items-center justify-center w-6 h-6 rounded-full bg-black/10">
-                  <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </span>
-              </Link>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/40 text-xs tracking-wider uppercase font-medium">
-          <span>Scroll Down</span>
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-            className="w-1.5 h-6 rounded-full bg-brand-green/50 relative overflow-hidden"
-          >
-            <div className="absolute top-0 left-0 w-full h-1/2 bg-brand-green" />
-          </motion.div>
-        </div>
-      </section>
+      {/* A. Cinematic Scroll Hero Animation */}
+      <HeroScrollAnimation />
 
       {/* B. Featured Properties (Horizontal Carousel) */}
       <section id="featured" className="py-24 border-b border-white/5 bg-[#080808]">

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Dancing_Script, Outfit, Jost, Hanken_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
-import SplashGate from "@/components/SplashGate";
 import { AuthProvider } from "@/lib/auth/AuthContext";
 
 const geistSans = Geist({
@@ -72,7 +71,7 @@ export default function RootLayout({
       </head>
       <body className="bg-[#050505] text-white selection:bg-[#00C853] selection:text-black font-sans min-h-screen">
         <AuthProvider>
-          <SplashGate>{children}</SplashGate>
+          {children}
         </AuthProvider>
       </body>
     </html>
