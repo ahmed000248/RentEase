@@ -5,7 +5,7 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, ImageOff } from "lucide-react";
 
-const FALLBACK_IMAGE = "/hero_background.png";
+const FALLBACK_IMAGE = "/images/hero_background.png";
 
 export default function PropertyGallery({ images, title }: { images: string[]; title: string }) {
   const gallery = images.length > 0 ? images : [FALLBACK_IMAGE];

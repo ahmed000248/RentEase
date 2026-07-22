@@ -8,7 +8,7 @@ import { MapPin, BedDouble, Bath, Maximize2, Sparkles, Star, X } from "lucide-re
 import { titleCase } from "@/lib/format";
 import type { PropertyDoc } from "@/lib/firebase/types";
 
-const FALLBACK_IMAGE = "/property_apartment.png";
+const FALLBACK_IMAGE = "/images/property_apartment.png";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 const containerVariants = {

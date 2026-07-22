@@ -445,7 +445,7 @@ export default function Home() {
               {/* Extra visual element */}
               <div className="hidden lg:block relative h-40 w-full rounded-2xl overflow-hidden border border-white/5">
                 <Image
-                  src="/hero_background.png"
+                  src="/images/hero_background.png"
                   alt="Architecture Details"
                   fill
                   className="object-cover brightness-50"
@@ -453,58 +453,65 @@ export default function Home() {
                 <div className="absolute inset-0 bg-[#00C853]/10 mix-blend-overlay" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="bg-black/60 backdrop-blur-md px-6 py-4 rounded-xl border border-white/10 text-center">
-                    <span className="text-2xl font-extrabold text-brand-green block">0%</span>
-                    <span className="text-xs text-white/60">Broker Commissions</span>
+                    <span className="text-sm font-semibold text-white">Direct Renting Guarantee</span>
                   </div>
                 </div>
               </div>
             </motion.div>
 
-            {/* Right Accordion List */}
-            <div className="lg:col-span-7 divide-y divide-white/10">
-              {ACCORDIONS.map((item) => {
-                const IconComponent = item.icon;
-                const isOpen = activeAccordion === item.id;
-
+            {/* Accordion Component Column */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={revealVariants}
+              className="lg:col-span-7 flex flex-col justify-center space-y-4"
+            >
+              {ACCORDIONS.map((acc) => {
+                const Icon = acc.icon;
+                const isOpen = activeAccordion === acc.id;
                 return (
-                  <div key={item.id} className="py-6 first:pt-0 last:pb-0">
+                  <div
+                    key={acc.id}
+                    className={`border rounded-2xl transition-all duration-300 overflow-hidden ${
+                      isOpen
+                        ? "bg-white/[0.03] border-brand-green/30"
+                        : "bg-transparent border-white/5 hover:border-white/10"
+                    }`}
+                  >
                     <button
-                      onClick={() => setActiveAccordion(isOpen ? null : item.id)}
-                      className="w-full flex items-center justify-between text-left py-4 group focus:outline-none"
+                      onClick={() => setActiveAccordion(isOpen ? null : acc.id)}
+                      className="w-full px-6 py-5 flex items-center justify-between text-left"
                     >
                       <div className="flex items-center gap-4">
-                        <span className={`p-3 rounded-2xl transition-all duration-300 ${isOpen ? "bg-brand-green text-black" : "bg-white/5 text-white/70 group-hover:bg-white/10"}`}>
-                          <IconComponent className="w-6 h-6" />
-                        </span>
-                        <span className="text-xl md:text-2xl font-bold text-white group-hover:text-brand-green transition-colors duration-300">
-                          {item.title}
-                        </span>
+                        <div
+                          className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                            isOpen ? "bg-brand-green text-black" : "bg-white/5 text-white"
+                          }`}
+                        >
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <span className="text-lg font-bold text-white tracking-tight">{acc.title}</span>
                       </div>
-
-                      {/* Plus icon rotated */}
-                      <motion.div
-                        animate={{ rotate: isOpen ? 45 : 0 }}
-                        transition={{ duration: 0.3, ease: easePremium }}
-                        className={`w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-300 ${isOpen ? "border-brand-green text-brand-green" : "border-white/10 text-white/40 group-hover:border-white/30"}`}
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all duration-300 ${
+                          isOpen ? "border-brand-green text-brand-green rotate-45" : "border-white/10 text-white/40"
+                        }`}
                       >
-                        <Plus className="w-5 h-5" />
-                      </motion.div>
+                        <Plus className="w-4 h-4" />
+                      </div>
                     </button>
 
-                    {/* Smooth AnimatePresence Accordion Content Height */}
-                    <AnimatePresence initial={false}>
+                    <AnimatePresence>
                       {isOpen && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.4, ease: easePremium }}
-                          className="overflow-hidden"
+                          transition={{ duration: 0.3, ease: easePremium }}
                         >
-                          <div className="pl-[76px] pr-4 pb-4 pt-2">
-                            <p className="text-white/60 font-light leading-relaxed text-base">
-                              {item.content}
-                            </p>
+                          <div className="px-6 pb-6 pt-2 text-white/60 font-light text-sm leading-relaxed border-t border-white/5">
+                            {acc.content}
                           </div>
                         </motion.div>
                       )}
@@ -512,13 +519,13 @@ export default function Home() {
                   </div>
                 );
               })}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* D. Visual Navigation ("What are you looking for?") */}
-      <section id="categories" className="py-24 border-b border-white/5 bg-[#080808]">
+      <section id="categories" className="py-24 border-b border-white/5 bg-[#050505]">
         <div className="max-w-7xl mx-auto px-6">
 
           <motion.div
@@ -536,9 +543,9 @@ export default function Home() {
           {/* Categories Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { title: "Villa Estates", type: "villa", count: "48 Listings", image: "/property_villa.png" },
-              { title: "Urban Apartments", type: "apartment", count: "112 Listings", image: "/property_apartment.png" },
-              { title: "Sky Penthouses", type: "penthouse", count: "24 Listings", image: "/property_penthouse.png" }
+              { title: "Villa Estates", type: "villa", count: "48 Listings", image: "/images/property_villa.png" },
+              { title: "Urban Apartments", type: "apartment", count: "112 Listings", image: "/images/property_apartment.png" },
+              { title: "Sky Penthouses", type: "penthouse", count: "24 Listings", image: "/images/property_penthouse.png" }
             ].map((cat, idx) => (
               <motion.div
                 key={cat.title}

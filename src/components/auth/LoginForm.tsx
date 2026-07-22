@@ -139,7 +139,7 @@ export default function LoginForm() {
           transition={{ duration: 22, ease: "easeInOut", repeat: Infinity, repeatType: "reverse" }}
           className="absolute -inset-[4%]"
         >
-          <Image src="/property_villa.png" alt="" fill priority className="object-cover" />
+          <Image src="/images/property_villa.png" alt="" fill priority className="object-cover" />
         </motion.div>
         <div
           className="absolute inset-0"
