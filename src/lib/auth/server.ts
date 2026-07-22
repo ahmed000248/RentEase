@@ -4,7 +4,9 @@ import { adminAuth, adminDb } from "@/lib/firebase/admin";
 import type { UserDoc, UserRole } from "@/lib/firebase/types";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 
-export { SESSION_COOKIE_NAME };
+import { hasRole, sanitizeRoles } from "@/lib/auth/roles";
+
+export { SESSION_COOKIE_NAME, hasRole };
 
 export async function getCurrentUser(): Promise<UserDoc | null> {
   const cookieStore = await cookies();
@@ -15,7 +17,11 @@ export async function getCurrentUser(): Promise<UserDoc | null> {
     const decoded = await adminAuth().verifySessionCookie(sessionCookie, true);
     const snap = await adminDb().collection("users").doc(decoded.uid).get();
     if (!snap.exists) return null;
-    return snap.data() as UserDoc;
+    const data = snap.data() as UserDoc;
+    if (data && Array.isArray(data.roles)) {
+      data.roles = sanitizeRoles(data.roles);
+    }
+    return data;
   } catch {
     return null;
   }
@@ -30,7 +36,7 @@ export async function requireUser(): Promise<UserDoc> {
 
 export async function requireRole(role: UserRole): Promise<UserDoc> {
   const user = await requireUser();
-  if (!user.roles.includes(role)) throw new Error("FORBIDDEN");
+  if (!hasRole(user, role)) throw new Error("FORBIDDEN");
   return user;
 }
 

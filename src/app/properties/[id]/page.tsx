@@ -31,6 +31,7 @@ import PropertyGallery from "@/components/property/PropertyGallery";
 import FavoriteButton from "@/components/property/FavoriteButton";
 import ReviewsSection from "@/components/property/ReviewsSection";
 import OwnerCard from "@/components/property/OwnerCard";
+import BookingCard from "@/components/property/BookingCard";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -189,7 +190,8 @@ export default async function PropertyDetailPage({ params }: PageProps) {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:sticky lg:top-28">
+          <div className="lg:sticky lg:top-28 space-y-6">
+            <BookingCard propertyId={property.id} pricePerMonth={property.price} />
             {owner ? (
               <OwnerCard
                 owner={owner}

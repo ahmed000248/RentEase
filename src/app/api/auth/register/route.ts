@@ -19,7 +19,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Name is required" }, { status: 400 });
   }
   const cleanRoles: UserRole[] = Array.isArray(roles)
-    ? roles.filter((r): r is UserRole => VALID_ROLES.includes(r))
+    ? roles
+        .filter((r): r is string => typeof r === "string")
+        .map((r) => r.trim() as UserRole)
+        .filter((r): r is UserRole => VALID_ROLES.includes(r))
     : [];
   if (cleanRoles.length === 0) {
     return NextResponse.json({ error: "At least one role is required" }, { status: 400 });

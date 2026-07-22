@@ -3,6 +3,7 @@ import { requireUser } from "@/lib/auth/server";
 import { adminDb } from "@/lib/firebase/admin";
 import type { BookingDoc, PropertyDoc } from "@/lib/firebase/types";
 import { isPropertyAvailable } from "@/lib/data/bookings";
+import { MOCK_PROPERTIES } from "@/lib/data/mockProperties";
 
 export async function POST(request: NextRequest) {
   let user;
@@ -23,12 +24,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid date range" }, { status: 400 });
   }
 
+  let property: PropertyDoc;
   const propSnap = await adminDb().collection("properties").doc(propertyId).get();
-  if (!propSnap.exists) {
-    return NextResponse.json({ error: "Property not found" }, { status: 404 });
+  if (propSnap.exists) {
+    property = propSnap.data() as PropertyDoc;
+  } else {
+    const mock = MOCK_PROPERTIES.find((p) => p.id === propertyId);
+    if (mock) {
+      property = mock;
+    } else {
+      return NextResponse.json({ error: "Property not found" }, { status: 404 });
+    }
   }
 
-  const property = propSnap.data() as PropertyDoc;
   if (property.status !== "approved") {
     return NextResponse.json({ error: "Property is not available for booking" }, { status: 400 });
   }
@@ -39,9 +47,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Property is already booked for selected dates" }, { status: 409 });
   }
 
-  // Calculate amount (days * price per night in cents/units)
-  const nights = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-  const amount = Math.round(nights * property.price * 100);
+  // Calculate amount in cents: property.price is monthly rent, so pro-rate daily rate as (price / 30)
+  const nights = Math.max(1, Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)));
+  const dailyRate = property.price / 30;
+  const amount = Math.round(nights * dailyRate * 100);
 
   const now = Date.now();
   const bookingRef = adminDb().collection("bookings").doc();
@@ -66,8 +75,6 @@ export async function POST(request: NextRequest) {
 
   if (stripeSecretKey) {
     try {
-      // Dynamic import of Stripe to avoid build error when package not installed
-      // Node fetch fallback to Stripe REST API directly if stripe SDK not installed
       const stripeRes = await fetch("https://api.stripe.com/v1/checkout/sessions", {
         method: "POST",
         headers: {
@@ -81,7 +88,7 @@ export async function POST(request: NextRequest) {
           "line_items[0][price_data][unit_amount]": String(amount),
           "line_items[0][quantity]": "1",
           mode: "payment",
-          success_url: `${request.nextUrl.origin}/owner/dashboard?booking=success`,
+          success_url: `${request.nextUrl.origin}/properties/${propertyId}?booking=success`,
           cancel_url: `${request.nextUrl.origin}/properties/${propertyId}?booking=cancelled`,
           client_reference_id: bookingRef.id,
           "metadata[bookingId]": bookingRef.id,

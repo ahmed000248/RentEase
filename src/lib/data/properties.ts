@@ -13,20 +13,21 @@ interface Viewer {
  * to their owner or an admin (e.g. owner previewing their own submission).
  */
 export async function getPropertyById(id: string, viewer?: Viewer | null): Promise<PropertyDoc | null> {
-  // Only check mock data if demo mode is explicitly enabled
-  if (DEMO_DATA_ENABLED) {
-    const mockProp = MOCK_PROPERTIES.find((p) => p.id === id);
-    if (mockProp) return mockProp;
+  // Check Firestore database first
+  const snap = await adminDb().collection("properties").doc(id).get();
+  if (snap.exists) {
+    const property = { ...(snap.data() as PropertyDoc), id: snap.id };
+    const canViewUnapproved = viewer && (viewer.isAdmin || viewer.uid === property.ownerId);
+    if (property.status === "approved" || canViewUnapproved) {
+      return property;
+    }
   }
 
-  const snap = await adminDb().collection("properties").doc(id).get();
-  if (!snap.exists) return null;
+  // Fall back to mock property definitions if not found in Firestore (e.g. homepage showcase cards)
+  const mockProp = MOCK_PROPERTIES.find((p) => p.id === id);
+  if (mockProp) return mockProp;
 
-  const property = { ...(snap.data() as PropertyDoc), id: snap.id };
-  const canViewUnapproved = viewer && (viewer.isAdmin || viewer.uid === property.ownerId);
-  if (property.status !== "approved" && !canViewUnapproved) return null;
-
-  return property;
+  return null;
 }
 
 export async function getProperties(

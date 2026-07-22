@@ -106,6 +106,29 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(false);
 
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize Lenis Smooth Scroll
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+    lenisRef.current = lenis;
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
   // When returning in the same session, position viewport at end of hero sequence so header & resting details show,
   // while keeping the full scroll animation intact when scrolling back UP.
   useEffect(() => {
@@ -114,10 +137,17 @@ export default function Home() {
       if (hasSeen === "true") {
         setHeaderVisible(true);
         const timer = setTimeout(() => {
+          const featuredElem = document.getElementById("featured");
           const isMobile = window.innerWidth <= 768;
-          const targetY = window.innerHeight * (isMobile ? 8 : 12);
-          window.scrollTo({ top: targetY, behavior: "instant" as ScrollBehavior });
-        }, 150);
+          const defaultTarget = window.innerHeight * (isMobile ? 6 : 8);
+          const targetY = featuredElem ? Math.min(featuredElem.offsetTop, defaultTarget) : defaultTarget;
+          
+          if (lenisRef.current) {
+            lenisRef.current.scrollTo(targetY, { immediate: true });
+          } else {
+            window.scrollTo({ top: targetY, behavior: "instant" as ScrollBehavior });
+          }
+        }, 300);
         return () => clearTimeout(timer);
       }
     }
@@ -130,25 +160,6 @@ export default function Home() {
         sessionStorage.setItem("hasSeenIntro", "true");
       }
     }
-  }, []);
-
-  // Initialize Lenis Smooth Scroll
-  useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
-
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
-    return () => {
-      lenis.destroy();
-    };
   }, []);
 
 

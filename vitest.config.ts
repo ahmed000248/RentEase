@@ -7,6 +7,7 @@ export default defineConfig({
     globals: true,
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "server-only": path.resolve(__dirname, "./src/__tests__/mockServerOnly.ts"),
     },
   },
 });

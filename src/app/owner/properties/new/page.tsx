@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/server";
+import { getCurrentUser, hasRole } from "@/lib/auth/server";
 import { isAdminConfigured } from "@/lib/firebase/admin";
 import ListingWizardClient from "@/components/owner/ListingWizardClient";
 import BackendNotConfigured from "@/components/ui/BackendNotConfigured";
@@ -20,7 +20,7 @@ export default async function NewListingPage() {
 
   const user = await getCurrentUser();
   if (!user) redirect("/login?next=/owner/properties/new");
-  if (user.suspended || !user.roles.includes("owner")) redirect("/");
+  if (user.suspended || !hasRole(user, "owner")) redirect("/");
 
   return <ListingWizardClient ownerName={user.name} ownerId={user.uid} />;
 }

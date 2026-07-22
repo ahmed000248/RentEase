@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { SESSION_COOKIE_NAME } from "@/lib/auth/constants";
 
-const AUTH_ONLY_PREFIXES = ["/dashboard", "/admin"];
+const AUTH_ONLY_PREFIXES = ["/dashboard", "/admin", "/owner"];
 const GUEST_ONLY_PATHS = ["/login"];
 
 export function proxy(request: NextRequest) {
@@ -24,5 +24,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/admin/:path*", "/login"],
+  matcher: ["/dashboard/:path*", "/admin/:path*", "/owner/:path*", "/login"],
 };

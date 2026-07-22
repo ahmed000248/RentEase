@@ -68,7 +68,7 @@ export default function RootLayout({
       </head>
       <body className="bg-[#050505] text-white selection:bg-[#00C853] selection:text-black font-sans min-h-screen transition-colors duration-300">
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
             {children}
           </ThemeProvider>
         </AuthProvider>

@@ -5,10 +5,11 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, X, ImageOff } from "lucide-react";
 
-const FALLBACK_IMAGE = "/images/hero_background.png";
+const FALLBACK_IMAGE = "/images/property_apartment.png";
 
 export default function PropertyGallery({ images, title }: { images: string[]; title: string }) {
-  const gallery = images.length > 0 ? images : [FALLBACK_IMAGE];
+  const validImages = images && images.length > 0 ? images.filter((img) => Boolean(img && img.trim())) : [];
+  const gallery = validImages.length > 0 ? validImages : [FALLBACK_IMAGE];
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
 

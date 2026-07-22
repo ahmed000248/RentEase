@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/server";
+import { getCurrentUser, hasRole } from "@/lib/auth/server";
 import { isAdminConfigured } from "@/lib/firebase/admin";
 import BackendNotConfigured from "@/components/ui/BackendNotConfigured";
 
@@ -19,7 +19,7 @@ export default async function DashboardPage() {
     redirect("/?suspended=1");
   }
 
-  if (user.roles.includes("owner")) {
+  if (hasRole(user, "owner")) {
     redirect("/owner/dashboard");
   }
 

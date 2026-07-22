@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentUser } from "@/lib/auth/server";
+import { getCurrentUser, hasRole } from "@/lib/auth/server";
 import { isAdminConfigured } from "@/lib/firebase/admin";
 import { getPropertiesByOwner } from "@/lib/data/owner";
 import OwnerListingsClient from "@/components/owner/OwnerListingsClient";
@@ -21,7 +21,7 @@ export default async function OwnerListingsPage() {
 
   const user = await getCurrentUser();
   if (!user) redirect("/login?next=/owner/listings");
-  if (user.suspended || !user.roles.includes("owner")) redirect("/");
+  if (user.suspended || !hasRole(user, "owner")) redirect("/");
 
   const properties = await getPropertiesByOwner(user.uid);
 
