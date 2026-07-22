@@ -1,6 +1,6 @@
 /**
  * Timeline breakdown and constants for RentEase Cinematic Scroll Hero
- * Based on add_animation.md Section 14 & 15
+ * Extended pacing and clean typography config
  */
 
 export interface TextPanelData {
@@ -14,9 +14,9 @@ export interface TextPanelData {
 }
 
 export const HERO_TIMELINE_CONFIG = {
-  spacerHeight: "900vh",
-  mobileSpacerHeight: "600vh",
-  lerpFactor: 0.08,
+  spacerHeight: "1200vh",
+  mobileSpacerHeight: "800vh",
+  lerpFactor: 0.05,
   
   // Timeline Progress Ranges (%)
   ranges: {
@@ -32,7 +32,6 @@ export const HERO_TIMELINE_CONFIG = {
 };
 
 export const INITIAL_HERO_COPY = {
-  badge: "DIRECT RENTING REDEFINED",
   title: "RentEase",
   scriptAccent: "effortless",
   subhead: "Find a place that feels like home.",
@@ -41,7 +40,6 @@ export const INITIAL_HERO_COPY = {
 export const STORY_PANELS: TextPanelData[] = [
   {
     id: "phase2-threshold",
-    badge: "THE THRESHOLD",
     title: "Find homes built for the way you live.",
     subhead: "Step through curated spaces designed for comfort, security, and elegance.",
     position: "left",
@@ -50,7 +48,6 @@ export const STORY_PANELS: TextPanelData[] = [
   },
   {
     id: "phase3a-residences",
-    badge: "LUXURY RESIDENCES",
     title: "Homes & Apartments",
     subhead: "Explore houses, apartments, and flats in prime locations that match your lifestyle.",
     position: "left",
@@ -59,7 +56,6 @@ export const STORY_PANELS: TextPanelData[] = [
   },
   {
     id: "phase3b-co-living",
-    badge: "CO-LIVING & HOSTELS",
     title: "Rooms & Hostels",
     subhead: "Discover affordable, verified rooms and hostels for students and working professionals.",
     position: "right",
@@ -68,7 +64,6 @@ export const STORY_PANELS: TextPanelData[] = [
   },
   {
     id: "phase3c-commercial",
-    badge: "COMMERCIAL SPACES",
     title: "Shops & Workspaces",
     subhead: "Find high-visibility rental spaces for your store, office, or commercial venture.",
     position: "left",
@@ -78,7 +73,6 @@ export const STORY_PANELS: TextPanelData[] = [
 ];
 
 export const FINAL_HERO_COPY = {
-  badge: "DIRECT RENTING REDEFINED",
   titleLine1: "Your next space is",
   titleLine2: "closer than you think",
   scriptAccent: "closer",

@@ -32,6 +32,8 @@ const TYPE_ICON: Record<PropertyType, typeof Home> = {
   room: BedDouble,
   hostel: Hotel,
   shop: Store,
+  villa: Home,
+  penthouse: Building2,
 };
 
 interface NavItem {

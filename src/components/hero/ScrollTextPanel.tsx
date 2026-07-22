@@ -1,56 +1,79 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 interface ScrollTextPanelProps {
-  badge?: string;
   title: string;
   subhead?: string;
   position?: "left" | "right" | "center";
   active: boolean;
 }
 
+const containerVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1] as const,
+      staggerChildren: 0.08,
+      delayChildren: 0.1,
+    },
+  },
+  exit: {
+    opacity: 0,
+    y: -16,
+    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
+const wordVariants = {
+  hidden: { opacity: 0, y: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+  },
+};
+
 export default function ScrollTextPanel({
-  badge,
   title,
   subhead,
   position = "left",
   active,
 }: ScrollTextPanelProps) {
   const positionClasses = {
-    left: "items-start text-left justify-center md:justify-start md:pl-16 lg:pl-24",
-    right: "items-end text-right justify-center md:justify-end md:pr-16 lg:pr-24",
+    left: "items-start text-left justify-center md:justify-start md:pl-16 lg:pl-28",
+    right: "items-end text-right justify-center md:justify-end md:pr-16 lg:pr-28",
     center: "items-center text-center justify-center",
   };
 
+  const words = title.split(" ");
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.96 }}
-      animate={
-        active
-          ? { opacity: 1, y: 0, scale: 1 }
-          : { opacity: 0, y: -20, scale: 0.96 }
-      }
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      variants={containerVariants}
+      initial="hidden"
+      animate={active ? "visible" : "exit"}
       className={`pointer-events-none absolute inset-0 z-20 flex px-6 py-12 flex-col ${positionClasses[position]}`}
     >
-      <div className="max-w-xl rounded-3xl border border-white/10 bg-black/60 p-8 md:p-10 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
-        {badge && (
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-brand-green/30 bg-brand-green/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-brand-green backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5" />
-            <span>{badge}</span>
-          </div>
-        )}
-
-        <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight mb-4">
-          {title}
+      <div className="max-w-2xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.8)]">
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] mb-6 flex flex-wrap gap-x-3 gap-y-1">
+          {words.map((word, idx) => (
+            <motion.span key={idx} variants={wordVariants} className="inline-block">
+              {word}
+            </motion.span>
+          ))}
         </h2>
 
         {subhead && (
-          <p className="text-base md:text-lg text-white/80 font-normal leading-relaxed">
+          <motion.p
+            variants={wordVariants}
+            className="text-lg md:text-2xl text-white/90 font-light leading-relaxed max-w-xl"
+          >
             {subhead}
-          </p>
+          </motion.p>
         )}
       </div>
     </motion.div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Dancing_Script, Outfit, Jost, Hanken_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth/AuthContext";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,24 +55,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${dancingScript.variable} ${jost.variable} ${hankenGrotesk.variable} ${inter.variable} antialiased scroll-smooth`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${geistSans.variable} ${geistMono.variable} ${outfit.variable} ${dancingScript.variable} ${jost.variable} ${hankenGrotesk.variable} ${inter.variable} antialiased scroll-smooth`}
+    >
       <head>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                if (sessionStorage.getItem('hasSeenIntro')) {
-                  document.documentElement.classList.add('skip-intro');
-                }
-              } catch (e) {}
-            `,
-          }}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          rel="stylesheet"
         />
       </head>
-      <body className="bg-[#050505] text-white selection:bg-[#00C853] selection:text-black font-sans min-h-screen">
+      <body className="bg-[#050505] text-white selection:bg-[#00C853] selection:text-black font-sans min-h-screen transition-colors duration-300">
         <AuthProvider>
-          {children}
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            {children}
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

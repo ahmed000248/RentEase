@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, animate } from "framer-motion";
@@ -25,10 +25,14 @@ import {
   PhoneCall,
   Inbox,
   Sparkles,
-  Star
+  Star,
+  LogOut
 } from "lucide-react";
 import { MOCK_PROPERTIES, MockPropertyDoc } from "@/lib/data/mockProperties";
 import HeroScrollAnimation from "@/components/hero/HeroScrollAnimation";
+import { FINAL_HERO_COPY } from "@/components/hero/heroTimeline";
+import PropertyExpandCard from "@/components/property/PropertyExpandCard";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 // Register GSAP ScrollTrigger
 if (typeof window !== "undefined") {
@@ -73,7 +77,12 @@ const ACCORDIONS = [
 ];
 
 export default function Home() {
-  const { userDoc, loading } = useAuth();
+  const { userDoc, loading, signOutUser } = useAuth();
+
+  const handleLogout = async () => {
+    await signOutUser();
+    window.location.reload();
+  };
   const [expanded, setExpanded] = useState<{
     property: MockPropertyDoc;
     rect: { top: number; left: number; width: number; height: number };
@@ -96,14 +105,24 @@ export default function Home() {
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [skipIntro, setSkipIntro] = useState(false);
+  const [headerVisible, setHeaderVisible] = useState(false);
 
-  // Sync sessionStorage for intro skip state on mount/client-navigation
+  // Sync sessionStorage for intro skip state on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hasSeen = sessionStorage.getItem("hasSeenIntro");
-      if (hasSeen || document.documentElement.classList.contains("skip-intro")) {
+      if (hasSeen === "true") {
         setSkipIntro(true);
-        document.documentElement.classList.add("skip-intro");
+        setHeaderVisible(true);
+      }
+    }
+  }, []);
+
+  const handleProgressUpdate = useCallback((progressPercent: number, isFinal: boolean) => {
+    if (progressPercent >= 75 || isFinal) {
+      setHeaderVisible(true);
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("hasSeenIntro", "true");
       }
     }
   }, []);
@@ -145,11 +164,12 @@ export default function Home() {
           opacity: 1,
           scale: 1,
           y: 0,
+          duration: 0.8,
+          ease: "power2.out",
           scrollTrigger: {
             trigger: footerSectionRef.current,
-            start: "top bottom",
-            end: "bottom bottom",
-            scrub: 1.2,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -174,7 +194,7 @@ export default function Home() {
     <div className="relative overflow-hidden">
 
       {/* A. Sticky Header / Navigation */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-[#050505]/40 backdrop-blur-md border-b border-white/5 transition-all duration-300">
+      <header className={`fixed top-0 left-0 w-full z-50 bg-[#050505]/40 backdrop-blur-md border-b border-white/5 transition-all duration-500 transform ${headerVisible || skipIntro ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-full opacity-0 pointer-events-none"}`}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="text-2xl font-extrabold tracking-tight">
             Rent<span className="text-brand-green">Ease</span>
@@ -194,17 +214,27 @@ export default function Home() {
             {loading ? (
               <div className="w-20 h-9 bg-white/5 rounded-full animate-pulse" />
             ) : userDoc ? (
-              <Link
-                href="/dashboard"
-                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-brand-green hover:shadow-[0_0_15px_rgba(0,200,83,0.15)]"
-              >
-                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-brand-green/5 to-brand-green/10 transition-transform duration-500 ease-out group-hover:translate-x-0" />
-                <span className="relative z-10 flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
-                  <span>Dashboard</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 transition-all duration-300 ease-premium group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-brand-green" />
-                </span>
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/dashboard"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-white/10 px-5 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:border-brand-green hover:shadow-[0_0_15px_rgba(0,200,83,0.15)]"
+                >
+                  <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-brand-green/5 to-brand-green/10 transition-transform duration-500 ease-out group-hover:translate-x-0" />
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+                    <span>Dashboard</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 opacity-0 -translate-x-2 transition-all duration-300 ease-premium group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-brand-green" />
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-4 py-2.5 text-sm font-semibold text-white/70 hover:text-red-400 hover:border-red-500/30 transition-all duration-300"
+                >
+                  <LogOut className="w-4 h-4" />
+                  <span>Log Out</span>
+                </button>
+              </div>
             ) : (
               <Link
                 href="/login"
@@ -217,6 +247,8 @@ export default function Home() {
                 </span>
               </Link>
             )}
+
+            <ThemeToggle />
 
             <Link
               href="/properties"
@@ -293,13 +325,26 @@ export default function Home() {
               {loading ? (
                 <div className="w-full h-12 bg-white/5 rounded-full animate-pulse" />
               ) : userDoc ? (
-                <Link
-                  href="/dashboard"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="inline-flex items-center justify-center gap-2 border border-brand-green/30 text-white py-4 rounded-full font-bold text-base hover:bg-brand-green/10 transition-colors"
-                >
-                  <span>Dashboard</span>
-                </Link>
+                <>
+                  <Link
+                    href="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="inline-flex items-center justify-center gap-2 border border-brand-green/30 text-white py-4 rounded-full font-bold text-base hover:bg-brand-green/10 transition-colors"
+                  >
+                    <span>Dashboard</span>
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      handleLogout();
+                    }}
+                    className="inline-flex items-center justify-center gap-2 border border-red-500/30 text-red-400 py-4 rounded-full font-bold text-base hover:bg-red-500/10 transition-colors"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span>Log Out</span>
+                  </button>
+                </>
               ) : (
                 <Link
                   href="/login"
@@ -309,13 +354,59 @@ export default function Home() {
                   <span>Login</span>
                 </Link>
               )}
+              <div className="pt-2 flex justify-center">
+                <ThemeToggle />
+              </div>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
 
       {/* A. Cinematic Scroll Hero Animation */}
-      <HeroScrollAnimation />
+      {!skipIntro ? (
+        <HeroScrollAnimation onProgressUpdate={handleProgressUpdate} />
+      ) : (
+        <section className="relative min-h-[90vh] flex items-center justify-center pt-28 pb-20 bg-[#050505] text-white select-none">
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/images/hero-poster.jpg"
+              alt="RentEase Villa"
+              fill
+              priority
+              className="object-cover brightness-[0.45]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-[#050505]/80 z-[1]" />
+          </div>
+          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] text-white mb-8">
+              {FINAL_HERO_COPY.titleLine1}{" "}
+              <span className="font-script text-brand-green italic font-normal tracking-wide px-2">
+                {FINAL_HERO_COPY.scriptAccent}
+              </span>{" "}
+              than you think.
+            </h1>
+            <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed mb-10">
+              {FINAL_HERO_COPY.subhead}
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="#featured"
+                className="group inline-flex items-center gap-3 bg-brand-green text-black px-8 py-4 rounded-full text-base font-bold transition-all duration-300 hover:bg-white hover:text-black"
+              >
+                <span>View Featured Properties</span>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </Link>
+              <Link
+                href="/properties"
+                className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/20"
+              >
+                <span>Explore All Listings</span>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* B. Featured Properties (Horizontal Carousel) */}
       <section id="featured" className="py-24 border-b border-white/5 bg-[#080808]">
@@ -779,7 +870,12 @@ export default function Home() {
 
       <AnimatePresence>
         {expanded && (
-          <ExpandedCard state={expanded} onClose={closeCard} />
+          <PropertyExpandCard
+            key={expanded.property.id}
+            property={expanded.property}
+            rect={expanded.rect}
+            onClose={closeCard}
+          />
         )}
       </AnimatePresence>
 
@@ -826,97 +922,4 @@ function PriceCounter({ value }: { value: number }) {
   }, [value]);
 
   return <>{display.toLocaleString("en-US")}</>;
-}
-
-function ExpandedCard({
-  state,
-  onClose
-}: {
-  state: { property: MockPropertyDoc; rect: { top: number; left: number; width: number; height: number } };
-  onClose: () => void;
-}) {
-  const { property, rect } = state;
-  const [textVisible, setTextVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setTextVisible(true), 500);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  return (
-    <>
-      <motion.div
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.35 }}
-        className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[998]"
-      />
-      <motion.div
-        initial={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height, borderRadius: 24 }}
-        animate={{ top: 0, left: 0, width: "100vw", height: "100vh", borderRadius: 0 }}
-        exit={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height, borderRadius: 24 }}
-        transition={{ duration: 0.5, ease: easePremium }}
-        className="fixed z-[999] bg-[#0c0c0e] shadow-2xl overflow-hidden flex flex-col md:flex-row"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: textVisible ? 1 : 0 }}
-          transition={{ duration: 0.4, delay: textVisible ? 0.05 : 0 }}
-          className="flex-1 min-h-0 min-w-0 flex flex-col justify-start md:justify-center p-8 md:p-16 overflow-y-auto"
-        >
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="self-start bg-white/5 border border-white/10 text-white w-10 h-10 rounded-full flex items-center justify-center mb-8 hover:bg-white/10 transition-colors"
-          >
-            <X className="w-[18px] h-[18px]" />
-          </button>
-
-          <div className="text-2xl md:text-[30px] font-bold text-brand-green">
-            $<PriceCounter value={property.price} />
-            <span className="text-[15px] font-medium text-white/50">/mo</span>
-          </div>
-          <h2 className="text-2xl md:text-[34px] font-bold text-white mt-3.5 mb-1.5 tracking-tight">
-            {property.title}
-          </h2>
-          <div className="flex items-center gap-1.5 text-[15px] text-white/60">
-            <MapPin className="w-3.5 h-3.5 text-brand-green" />
-            {property.location}, {property.city}
-          </div>
-
-          <div className="flex items-center gap-6 mt-6 pt-6 border-t border-white/5 text-[15px] text-white/70">
-            <span className="flex items-center gap-1.5">
-              <BedDouble className="w-4 h-4 text-brand-green" />
-              {property.bedrooms} Bed{property.bedrooms === 1 ? "" : "s"}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Bath className="w-4 h-4 text-brand-green" />
-              {property.bathrooms} Bath{property.bathrooms === 1 ? "" : "s"}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Maximize2 className="w-4 h-4 text-brand-green" />
-              {property.areaSqFt.toLocaleString()} Sq Ft
-            </span>
-          </div>
-
-          <p className="text-white/60 text-sm leading-relaxed mt-6 max-w-lg">
-            {property.description}
-          </p>
-
-          <Link
-            href={`/properties/${property.id}`}
-            className="inline-flex items-center justify-center w-fit bg-brand-green text-black text-[15px] font-bold px-8 py-4 rounded-lg mt-9 hover:bg-white transition-colors"
-          >
-            View Details
-          </Link>
-        </motion.div>
-        <div className="h-56 flex-shrink-0 md:flex-1 md:min-w-0 relative md:h-auto">
-          <Image src={property.images[0]} alt={property.title} fill className="object-cover" />
-        </div>
-      </motion.div>
-    </>
-  );
-}
+};

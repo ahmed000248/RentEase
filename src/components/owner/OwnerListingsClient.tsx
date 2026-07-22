@@ -32,6 +32,8 @@ const TYPE_LABELS: Record<PropertyType, string> = {
   room: "Room",
   hostel: "Hostel",
   shop: "Shop",
+  villa: "Villa",
+  penthouse: "Penthouse",
 };
 
 export default function OwnerListingsClient({ ownerName, properties: initialProperties }: Props) {

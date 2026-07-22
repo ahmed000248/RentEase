@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { useScrollVideoSync } from "@/hooks/useScrollVideoSync";
 import ScrollTextPanel from "./ScrollTextPanel";
 import {
@@ -16,7 +16,11 @@ import {
 
 const TOTAL_FRAMES = 193;
 
-export default function HeroCanvasAnimation() {
+interface HeroCanvasAnimationProps {
+  onProgressUpdate?: (progressPercent: number, isFinal: boolean) => void;
+}
+
+export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnimationProps) {
   const {
     containerRef,
     videoRef,
@@ -34,7 +38,14 @@ export default function HeroCanvasAnimation() {
   const isInitialActive = progressPercent < HERO_TIMELINE_CONFIG.ranges.phase1.start;
   const isFinalActive = progressPercent >= HERO_TIMELINE_CONFIG.ranges.phase4.start;
 
-  // Opacity calculations for smooth crossfades
+  // Issue 2: Dynamic Brightness and Scrim Opacity
+  // Phases 1-3: Full brightness (1.0), minimal scrim (0.1)
+  // Phase 4 (75-100%): Ramps brightness down to 0.45, scrim opacity up to 0.85
+  const phase4Progress = Math.max(0, Math.min(1, (progressPercent - 74) / 20));
+  const canvasBrightness = isReducedMotion ? 0.45 : 1.0 - 0.55 * phase4Progress;
+  const scrimOpacity = isReducedMotion ? 0.85 : 0.1 + 0.75 * phase4Progress;
+
+  // Opacity calculations for initial & final text content
   const initialOpacity = isReducedMotion
     ? 0
     : Math.max(0, 1 - (progressPercent - 4) / 12);
@@ -42,6 +53,11 @@ export default function HeroCanvasAnimation() {
   const finalOpacity = isReducedMotion
     ? 1
     : Math.min(1, Math.max(0, (progressPercent - 75) / 15));
+
+  // Notify parent of progress & final state for Header slide-down (Issue 3) and Session Skip (Issue 8)
+  useEffect(() => {
+    onProgressUpdate?.(progressPercent, isFinalActive);
+  }, [progressPercent, isFinalActive, onProgressUpdate]);
 
   // 1. Preload frame image sequence
   useEffect(() => {
@@ -121,11 +137,12 @@ export default function HeroCanvasAnimation() {
     >
       {/* Background Media Container */}
       <div className="absolute inset-0 z-0">
-        {/* Canvas Frame Sequence Element */}
+        {/* Canvas Frame Sequence Element with dynamic brightness */}
         {!isReducedMotion && (
           <canvas
             ref={canvasRef}
-            className={`absolute inset-0 h-full w-full object-cover brightness-[0.45] transition-opacity duration-700 ${
+            style={{ filter: `brightness(${canvasBrightness})` }}
+            className={`absolute inset-0 h-full w-full object-cover transition-all duration-300 ${
               framesLoaded ? "opacity-100" : "opacity-0"
             }`}
           />
@@ -140,7 +157,8 @@ export default function HeroCanvasAnimation() {
             disablePictureInPicture
             preload="auto"
             poster="/images/hero-poster.jpg"
-            className="absolute inset-0 h-full w-full object-cover brightness-[0.45]"
+            style={{ filter: `brightness(${canvasBrightness})` }}
+            className="absolute inset-0 h-full w-full object-cover transition-all duration-300"
           >
             <source src="/videos/hero-scrub.mp4" type="video/mp4" />
           </video>
@@ -153,12 +171,16 @@ export default function HeroCanvasAnimation() {
             alt="RentEase Cinematic Villa Entrance"
             fill
             priority
-            className="object-cover brightness-[0.4]"
+            style={{ filter: `brightness(${canvasBrightness})` }}
+            className="object-cover transition-all duration-300"
           />
         )}
 
-        {/* Contrast Scrim Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-[#050505]/80 z-[1]" />
+        {/* Contrast Scrim Gradient with dynamic opacity */}
+        <div
+          style={{ opacity: scrimOpacity }}
+          className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-[#050505]/80 z-[1] transition-opacity duration-300 pointer-events-none"
+        />
       </div>
 
       {/* 1. INITIAL STATE (Pinned, 0% - 8% progress) */}
@@ -169,29 +191,23 @@ export default function HeroCanvasAnimation() {
             isInitialActive ? "pointer-events-auto" : ""
           }`}
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 text-xs font-semibold text-brand-green mb-8">
-            <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse" />
-            <span>{INITIAL_HERO_COPY.badge}</span>
-          </div>
-
           {/* Title */}
           <h1 className="text-6xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-white drop-shadow-2xl leading-none mb-6">
             Rent<span className="font-script text-brand-green italic font-normal tracking-wide lowercase ml-2">Ease</span>
           </h1>
 
           {/* Subhead */}
-          <p className="text-lg md:text-2xl text-white/80 max-w-xl font-light tracking-wide mb-12">
+          <p className="text-lg md:text-2xl text-white/90 max-w-xl font-light tracking-wide mb-12 drop-shadow-md">
             {INITIAL_HERO_COPY.subhead}
           </p>
 
           {/* Scroll Down Indicator */}
-          <div className="absolute bottom-10 flex flex-col items-center gap-2 text-white/50 text-xs font-semibold tracking-widest uppercase">
+          <div className="absolute bottom-10 flex flex-col items-center gap-2 text-white/60 text-xs font-semibold tracking-widest uppercase">
             <span>Scroll to Explore</span>
             <motion.div
               animate={{ y: [0, 8, 0] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-              className="w-5 h-8 rounded-full border border-white/20 flex items-start justify-center p-1"
+              className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center p-1"
             >
               <div className="w-1 h-2 rounded-full bg-brand-green" />
             </motion.div>
@@ -208,7 +224,6 @@ export default function HeroCanvasAnimation() {
           return (
             <ScrollTextPanel
               key={panel.id}
-              badge={panel.badge}
               title={panel.title}
               subhead={panel.subhead}
               position={panel.position}
@@ -225,12 +240,6 @@ export default function HeroCanvasAnimation() {
         }`}
       >
         <div className="max-w-4xl mx-auto flex flex-col items-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 text-xs font-semibold text-brand-green mb-8">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>{FINAL_HERO_COPY.badge}</span>
-          </div>
-
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] text-white mb-8">
             {FINAL_HERO_COPY.titleLine1}{" "}
@@ -241,7 +250,7 @@ export default function HeroCanvasAnimation() {
           </h1>
 
           {/* Subhead */}
-          <p className="text-base sm:text-lg md:text-xl text-white/70 max-w-2xl font-light leading-relaxed mb-10">
+          <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl font-light leading-relaxed mb-10">
             {FINAL_HERO_COPY.subhead}
           </p>
 

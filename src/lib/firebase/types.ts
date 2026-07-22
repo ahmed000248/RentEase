@@ -12,7 +12,7 @@ export interface UserDoc {
   createdAt: number;
 }
 
-export type PropertyType = "house" | "apartment" | "room" | "hostel" | "shop";
+export type PropertyType = "house" | "apartment" | "room" | "hostel" | "shop" | "villa" | "penthouse";
 export type PropertyStatus = "pending" | "approved" | "rejected" | "suspended";
 export type Furnishing = "furnished" | "semi-furnished" | "unfurnished";
 export type PreferredFor = "any" | "male" | "female";
@@ -39,6 +39,7 @@ export interface PropertyDoc {
   ratingAvg: number;
   ratingCount: number;
   createdAt: number;
+  tag?: string;
   /** Set by admin when moderating. */
   moderatedBy?: string;
   moderatedAt?: number;

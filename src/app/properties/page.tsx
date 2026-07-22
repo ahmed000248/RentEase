@@ -49,15 +49,23 @@ export default async function PropertiesPage({ searchParams }: PageProps) {
     preferredFor: params.preferredFor as PreferredFor | undefined,
   };
 
-  const properties = await getProperties(filterParams);
+  let properties: Awaited<ReturnType<typeof getProperties>> = [];
+  let allProperties: Awaited<ReturnType<typeof getProperties>> = [];
 
-  if (params.sort === "price-asc") {
-    properties.sort((a, b) => a.price - b.price);
-  } else if (params.sort === "price-desc") {
-    properties.sort((a, b) => b.price - a.price);
+  try {
+    properties = await getProperties(filterParams);
+
+    if (params.sort === "price-asc") {
+      properties.sort((a, b) => a.price - b.price);
+    } else if (params.sort === "price-desc") {
+      properties.sort((a, b) => b.price - a.price);
+    }
+
+    allProperties = await getProperties();
+  } catch (err) {
+    console.error("Failed to fetch properties:", err);
   }
 
-  const allProperties = await getProperties();
   const activeCities = Array.from(new Set(allProperties.map((p) => p.city))).filter(Boolean);
   const activeTypes = Array.from(new Set(allProperties.map((p) => p.type))).filter(Boolean);
 

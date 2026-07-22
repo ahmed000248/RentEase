@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { LayoutDashboard, ListFilter, Shield, Settings } from "lucide-react";
+import { LayoutDashboard, ListFilter, Shield, Settings, LogOut } from "lucide-react";
+import { useAuth } from "@/lib/auth/AuthContext";
+import ThemeToggle from "@/components/ui/ThemeToggle";
 
 interface NavItem {
   icon: typeof LayoutDashboard;
@@ -22,6 +24,13 @@ interface Props {
 }
 
 export default function AdminSidebar({ active }: Props) {
+  const { signOutUser } = useAuth();
+
+  const handleLogout = async () => {
+    await signOutUser();
+    window.location.href = "/login";
+  };
+
   return (
     <div className="flex-shrink-0 lg:w-[76px] w-full bg-[#131313] border border-[#232323] rounded-[22px] flex lg:flex-col items-center justify-between lg:justify-start px-3 lg:px-0 py-3 lg:py-5 gap-2">
       <div className="w-[38px] h-[38px] rounded-[10px] bg-[#ef4444] flex items-center justify-center font-heading font-bold text-white text-base lg:mb-4">
@@ -51,6 +60,18 @@ export default function AdminSidebar({ active }: Props) {
       </div>
 
       <div className="hidden lg:block lg:flex-1" />
+
+      <ThemeToggle className="mb-1" />
+
+      <button
+        type="button"
+        onClick={handleLogout}
+        title="Log out"
+        aria-label="Log out"
+        className="w-11 h-11 rounded-xl flex items-center justify-center text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
+      >
+        <LogOut className="w-[18px] h-[18px]" />
+      </button>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { AnimatePresence, animate, motion } from "framer-motion";
 import { MapPin, BedDouble, Bath, Maximize2, Sparkles, Star, X } from "lucide-react";
 import { titleCase } from "@/lib/format";
 import type { PropertyDoc } from "@/lib/firebase/types";
+import PropertyExpandCard from "./PropertyExpandCard";
 
 const FALLBACK_IMAGE = "/images/property_apartment.png";
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -130,91 +131,15 @@ export default function PropertyListingGrid({ properties }: { properties: Proper
       </motion.div>
 
       <AnimatePresence>
-        {expanded && <ExpandedCard state={expanded} onClose={closeCard} />}
+        {expanded && (
+          <PropertyExpandCard
+            key={expanded.property.id}
+            property={expanded.property}
+            rect={expanded.rect}
+            onClose={closeCard}
+          />
+        )}
       </AnimatePresence>
-    </>
-  );
-}
-
-function ExpandedCard({ state, onClose }: { state: ExpandedState; onClose: () => void }) {
-  const { property, rect } = state;
-  const [textVisible, setTextVisible] = useState(false);
-
-  useEffect(() => {
-    const timer = window.setTimeout(() => setTextVisible(true), 500);
-    return () => window.clearTimeout(timer);
-  }, []);
-
-  return (
-    <>
-      <motion.div
-        onClick={onClose}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.35 }}
-        className="fixed inset-0 bg-black/70 z-[998]"
-      />
-      <motion.div
-        initial={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height, borderRadius: 16 }}
-        animate={{ top: 0, left: 0, width: "100vw", height: "100vh", borderRadius: 0 }}
-        exit={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height, borderRadius: 16 }}
-        transition={{ duration: 0.5, ease: EASE }}
-        className="fixed z-[999] bg-[#101013] shadow-2xl overflow-hidden flex flex-col md:flex-row"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: textVisible ? 1 : 0 }}
-          transition={{ duration: 0.4, delay: textVisible ? 0.05 : 0 }}
-          className="flex-1 min-w-0 flex flex-col justify-center p-8 md:p-16 overflow-y-auto"
-        >
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="self-start bg-white/8 border border-white/15 text-white w-10 h-10 rounded-full flex items-center justify-center mb-8 hover:bg-white/15 transition-colors"
-          >
-            <X className="w-[18px] h-[18px]" />
-          </button>
-
-          <div className="text-2xl md:text-[30px] font-bold text-brand-green">
-            $<PriceCounter value={property.price} />
-            <span className="text-[15px] font-medium text-white/50">/mo</span>
-          </div>
-          <h2 className="text-2xl md:text-[34px] font-bold text-white mt-3.5 mb-1.5 tracking-tight">
-            {property.title}
-          </h2>
-          <div className="flex items-center gap-1.5 text-[15px] text-white/60">
-            <MapPin className="w-3.5 h-3.5" />
-            {property.location}, {property.city}
-          </div>
-
-          <div className="flex items-center gap-6 mt-6 pt-6 border-t border-white/8 text-[15px] text-white/70">
-            <span className="flex items-center gap-1.5">
-              <BedDouble className="w-4 h-4 text-teal-400" />
-              {property.bedrooms} Bed{property.bedrooms === 1 ? "" : "s"}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Bath className="w-4 h-4 text-teal-400" />
-              {property.bathrooms} Bath{property.bathrooms === 1 ? "" : "s"}
-            </span>
-            <span className="flex items-center gap-1.5">
-              <Maximize2 className="w-4 h-4 text-teal-400" />
-              {property.areaSqFt.toLocaleString()} Sq Ft
-            </span>
-          </div>
-
-          <Link
-            href={`/properties/${property.id}`}
-            className="inline-flex items-center justify-center w-fit bg-brand-green text-black text-[15px] font-bold px-8 py-4 rounded-lg mt-9 hover:bg-white transition-colors"
-          >
-            View Details
-          </Link>
-        </motion.div>
-        <div className="flex-1 min-w-0 relative h-56 md:h-auto">
-          <Image src={property.images[0] || FALLBACK_IMAGE} alt={property.title} fill className="object-cover" />
-        </div>
-      </motion.div>
     </>
   );
 }
