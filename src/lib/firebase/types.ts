@@ -13,7 +13,7 @@ export interface UserDoc {
 }
 
 export type PropertyType = "house" | "apartment" | "room" | "hostel" | "shop";
-export type PropertyStatus = "pending" | "approved" | "rejected";
+export type PropertyStatus = "pending" | "approved" | "rejected" | "suspended";
 export type Furnishing = "furnished" | "semi-furnished" | "unfurnished";
 export type PreferredFor = "any" | "male" | "female";
 
@@ -39,6 +39,9 @@ export interface PropertyDoc {
   ratingAvg: number;
   ratingCount: number;
   createdAt: number;
+  /** Set by admin when moderating. */
+  moderatedBy?: string;
+  moderatedAt?: number;
 }
 
 export interface FavoriteDoc {
@@ -75,7 +78,9 @@ export type NotificationType =
   | "inquiry_replied"
   | "listing_approved"
   | "listing_rejected"
-  | "new_review";
+  | "new_review"
+  | "booking_confirmed"
+  | "booking_cancelled";
 
 export interface NotificationDoc {
   id: string;
@@ -100,5 +105,78 @@ export interface SavedSearchDoc {
   uid: string;
   filters: SavedSearchFilters;
   lastNotifiedAt: number | null;
+  createdAt: number;
+}
+
+// ---------------------------------------------------------------------------
+// Messaging
+// ---------------------------------------------------------------------------
+
+/** A conversation thread between one owner and one tenant about a property. */
+export interface ConversationDoc {
+  id: string;
+  ownerId: string;
+  tenantId: string;
+  propertyId: string;
+  propertyTitle: string;
+  tenantName: string;
+  ownerName: string;
+  lastMessage: string;
+  lastMessageAt: number;
+  unreadByOwner: number;
+  unreadByTenant: number;
+  createdAt: number;
+}
+
+/** A single message within a conversation (stored as subcollection). */
+export interface MessageDoc {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  senderRole: "owner" | "tenant";
+  text: string;
+  createdAt: number;
+}
+
+// ---------------------------------------------------------------------------
+// Bookings
+// ---------------------------------------------------------------------------
+
+export type BookingStatus =
+  | "pending_payment"
+  | "confirmed"
+  | "cancelled"
+  | "completed";
+
+export interface BookingDoc {
+  id: string;
+  propertyId: string;
+  tenantId: string;
+  ownerId: string;
+  /** Epoch milliseconds */
+  startDate: number;
+  /** Epoch milliseconds */
+  endDate: number;
+  status: BookingStatus;
+  /** Total amount in cents */
+  amount: number;
+  paymentIntentId: string | null;
+  stripeSessionId: string | null;
+  createdAt: number;
+}
+
+// ---------------------------------------------------------------------------
+// Admin Moderation Log
+// ---------------------------------------------------------------------------
+
+export type ModerationAction = "approve" | "reject" | "suspend";
+
+export interface ModerationLogDoc {
+  id: string;
+  propertyId: string;
+  action: ModerationAction;
+  adminUid: string;
+  adminEmail?: string;
+  reason?: string;
   createdAt: number;
 }

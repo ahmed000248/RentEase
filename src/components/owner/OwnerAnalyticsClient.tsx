@@ -204,6 +204,22 @@ export default function OwnerAnalyticsClient() {
           <p className="text-[#6b7280] text-sm mt-1">Overview of your portfolio performance</p>
         </motion.div>
 
+        {/* Demo Data Banner */}
+        <motion.div
+          className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-4 mb-6 flex items-center gap-3"
+          initial={{ opacity: 0, y: -8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.4 }}
+        >
+          <BarChart2 className="w-5 h-5 text-amber-400 flex-shrink-0" />
+          <div className="text-xs">
+            <p className="font-semibold text-amber-300">Demo Analytics Data</p>
+            <p className="text-amber-200/70 mt-0.5">
+              These occupancy and revenue figures are simulated for demonstration. Connect a live booking system to view real earnings.
+            </p>
+          </div>
+        </motion.div>
+
         {/* KPI Row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {KPI_CARDS.map((card, i) => (

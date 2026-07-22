@@ -1,10 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth, adminDb } from "@/lib/firebase/admin";
 import type { UserDoc, UserRole } from "@/lib/firebase/types";
+import { applyRateLimit } from "@/lib/rateLimit";
 
 const VALID_ROLES: UserRole[] = ["tenant", "owner"];
 
 export async function POST(request: NextRequest) {
+  // Rate limiting: max 5 registrations per IP per minute
+  const limited = await applyRateLimit(request, "register", 60_000, 5);
+  if (limited) return limited;
+
   const { idToken, name, phone, roles } = await request.json();
 
   if (typeof idToken !== "string" || !idToken) {

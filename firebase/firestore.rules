@@ -88,5 +88,71 @@ service cloud.firestore {
       allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
       allow update: if isSignedIn() && request.auth.uid == resource.data.uid;
     }
+
+    // --- conversations ---
+    // A conversation links one owner and one tenant about a property.
+    // Only participants can read; only the tenant initiates (creates the conv).
+    match /conversations/{conversationId} {
+      allow read: if isAdmin() ||
+        (isSignedIn() && (
+          request.auth.uid == resource.data.ownerId ||
+          request.auth.uid == resource.data.tenantId
+        ));
+      allow create: if isSignedIn() &&
+        request.resource.data.tenantId == request.auth.uid;
+      allow update: if isAdmin() ||
+        (isSignedIn() && (
+          request.auth.uid == resource.data.ownerId ||
+          request.auth.uid == resource.data.tenantId
+        ));
+      allow delete: if isAdmin();
+
+      // --- messages (subcollection) ---
+      // Only participants of the parent conversation may read/create messages.
+      // senderId must match the authenticated user — no spoofing.
+      match /messages/{messageId} {
+        allow read: if isAdmin() ||
+          (isSignedIn() && (
+            request.auth.uid == get(/databases/$(database)/documents/conversations/$(conversationId)).data.ownerId ||
+            request.auth.uid == get(/databases/$(database)/documents/conversations/$(conversationId)).data.tenantId
+          ));
+        allow create: if isSignedIn() &&
+          request.resource.data.senderId == request.auth.uid &&
+          (
+            request.auth.uid == get(/databases/$(database)/documents/conversations/$(conversationId)).data.ownerId ||
+            request.auth.uid == get(/databases/$(database)/documents/conversations/$(conversationId)).data.tenantId
+          );
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // --- bookings ---
+    // Created and updated server-side only (via API routes + Stripe webhook).
+    // Participants (tenant/owner) can read their own bookings.
+    match /bookings/{bookingId} {
+      allow read: if isAdmin() ||
+        (isSignedIn() && (
+          request.auth.uid == resource.data.tenantId ||
+          request.auth.uid == resource.data.ownerId
+        ));
+      allow create: if false;   // server-side only via /api/bookings/create
+      allow update: if false;   // server-side only via /api/webhooks/stripe
+      allow delete: if isAdmin();
+    }
+
+    // --- moderationLog ---
+    // Written server-side by admin API routes. Admins can read; no client writes.
+    match /moderationLog/{logId} {
+      allow read: if isAdmin();
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // --- rateLimits ---
+    // Written server-side by rate limiter utility. No client access.
+    match /rateLimits/{key} {
+      allow read, write: if false;
+    }
   }
 }

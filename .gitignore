@@ -56,3 +56,12 @@ next-env.d.ts
 
 # agent skills
 Ai_Agent_Skills/
+
+# tool scaffolding & generated cache (never commit)
+graphify-out/
+stitch-screens/
+temp_stitch/
+.antigravityignore
+.graphifyignore
+skills-lock.json
+.codex/

@@ -1,5 +1,11 @@
 import type { PropertyDoc, UserDoc, ReviewDoc } from "@/lib/firebase/types";
 
+/**
+ * Set ENABLE_DEMO_DATA=true in .env.local to enable mock/demo data for local development.
+ * This must be unset or false in production — mock listings must never appear in real deployments.
+ */
+export const DEMO_DATA_ENABLED = process.env.ENABLE_DEMO_DATA === "true";
+
 export interface MockPropertyDoc extends PropertyDoc {
   tag: string;
 }

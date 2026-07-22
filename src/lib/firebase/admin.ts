@@ -13,39 +13,13 @@ function loadServiceAccount() {
       parsed.private_key = parsed.private_key.replace(/\\n/g, "\n");
     }
     return parsed;
-  } catch (err) {
-    try {
-      const extractField = (field: string) => {
-        const regex = new RegExp('"' + field + '"\\s*:\\s*"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"', "s");
-        const match = raw.match(regex);
-        if (match) {
-          try {
-            return JSON.parse('"' + match[1] + '"');
-          } catch {
-            return match[1];
-          }
-        }
-        return undefined;
-      };
-
-      const projectId = extractField("project_id");
-      const clientEmail = extractField("client_email");
-      let privateKey = extractField("private_key");
-
-      if (projectId && clientEmail && privateKey) {
-        if (typeof privateKey === "string") {
-          privateKey = privateKey.replace(/\\n/g, "\n");
-        }
-        return {
-          project_id: projectId,
-          client_email: clientEmail,
-          private_key: privateKey,
-          private_key_id: extractField("private_key_id"),
-          type: extractField("type") || "service_account",
-        };
-      }
-    } catch {}
-    throw err;
+  } catch {
+    throw new Error(
+      "FIREBASE_SERVICE_ACCOUNT_KEY is not valid JSON. " +
+      "Copy the full service account key from Firebase Console > Project Settings > Service Accounts " +
+      "and paste it as a single-line JSON string. The private_key \\\\n sequences are fine as-is — " +
+      "do not modify the key after downloading it from the Firebase Console."
+    );
   }
 }
 
