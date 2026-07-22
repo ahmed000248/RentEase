@@ -5,39 +5,85 @@ import { getReviewersById } from "@/lib/data/properties";
 
 /** All conversations for an owner, ordered by most recent message. */
 export async function getConversationsForOwner(ownerId: string): Promise<ConversationDoc[]> {
-  const snap = await adminDb()
-    .collection("conversations")
-    .where("ownerId", "==", ownerId)
-    .orderBy("lastMessageAt", "desc")
-    .limit(50)
-    .get();
+  try {
+    const snap = await adminDb()
+      .collection("conversations")
+      .where("ownerId", "==", ownerId)
+      .orderBy("lastMessageAt", "desc")
+      .limit(50)
+      .get();
 
-  return snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+    return snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+  } catch {
+    try {
+      const snap = await adminDb()
+        .collection("conversations")
+        .where("ownerId", "==", ownerId)
+        .limit(50)
+        .get();
+
+      const items = snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+      return items.sort((a, b) => (b.lastMessageAt || 0) - (a.lastMessageAt || 0));
+    } catch {
+      return [];
+    }
+  }
 }
 
 /** All conversations for a tenant, ordered by most recent message. */
 export async function getConversationsForTenant(tenantId: string): Promise<ConversationDoc[]> {
-  const snap = await adminDb()
-    .collection("conversations")
-    .where("tenantId", "==", tenantId)
-    .orderBy("lastMessageAt", "desc")
-    .limit(50)
-    .get();
+  try {
+    const snap = await adminDb()
+      .collection("conversations")
+      .where("tenantId", "==", tenantId)
+      .orderBy("lastMessageAt", "desc")
+      .limit(50)
+      .get();
 
-  return snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+    return snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+  } catch {
+    try {
+      const snap = await adminDb()
+        .collection("conversations")
+        .where("tenantId", "==", tenantId)
+        .limit(50)
+        .get();
+
+      const items = snap.docs.map((doc) => ({ ...(doc.data() as ConversationDoc), id: doc.id }));
+      return items.sort((a, b) => (b.lastMessageAt || 0) - (a.lastMessageAt || 0));
+    } catch {
+      return [];
+    }
+  }
 }
 
 /** Messages in a conversation, ordered chronologically. */
 export async function getMessagesForConversation(conversationId: string): Promise<MessageDoc[]> {
-  const snap = await adminDb()
-    .collection("conversations")
-    .doc(conversationId)
-    .collection("messages")
-    .orderBy("createdAt", "asc")
-    .limit(100)
-    .get();
+  try {
+    const snap = await adminDb()
+      .collection("conversations")
+      .doc(conversationId)
+      .collection("messages")
+      .orderBy("createdAt", "asc")
+      .limit(100)
+      .get();
 
-  return snap.docs.map((doc) => ({ ...(doc.data() as MessageDoc), id: doc.id }));
+    return snap.docs.map((doc) => ({ ...(doc.data() as MessageDoc), id: doc.id }));
+  } catch {
+    try {
+      const snap = await adminDb()
+        .collection("conversations")
+        .doc(conversationId)
+        .collection("messages")
+        .limit(100)
+        .get();
+
+      const items = snap.docs.map((doc) => ({ ...(doc.data() as MessageDoc), id: doc.id }));
+      return items.sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0));
+    } catch {
+      return [];
+    }
+  }
 }
 
 export interface ConversationWithMessages {

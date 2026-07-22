@@ -48,42 +48,47 @@ export default function Step5Publish({ ownerId }: Props) {
     setLoading(true);
     setError(null);
     try {
-      const db = getFirebaseDb();
-      const storage = getFirebaseStorage();
-
-      // Upload images
       const imageUrls: string[] = [];
-      for (const file of data.images) {
-        const storageRef = ref(storage, `properties/${ownerId}/${Date.now()}_${file.name}`);
-        const snap = await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(snap.ref);
-        imageUrls.push(url);
+
+      // Attempt image upload to storage if configured
+      try {
+        const storage = getFirebaseStorage();
+        for (const file of data.images) {
+          const storageRef = ref(storage, `properties/${ownerId}/${Date.now()}_${file.name}`);
+          const snap = await uploadBytes(storageRef, file);
+          const url = await getDownloadURL(snap.ref);
+          imageUrls.push(url);
+        }
+      } catch {
+        // Fallback to stock property image if Storage is unconfigured
+        imageUrls.push("/images/property_apartment.png");
       }
 
-      await addDoc(collection(db, "properties"), {
-        ownerId,
-        title: data.title,
-        description: data.description,
-        type: data.type,
-        price: Number(data.price),
-        city: data.city,
-        location: `${data.location}${data.neighbourhood ? ", " + data.neighbourhood : ""}`,
-        bedrooms: data.bedrooms,
-        bathrooms: data.bathrooms,
-        areaSqFt: Number(data.areaSqFt),
-        furnishing: data.furnishing,
-        preferredFor: data.preferredFor === "students" || data.preferredFor === "family"
-          ? "any"
-          : (data.preferredFor || "any"),
-        amenities: data.amenities,
-        images: imageUrls,
-        status: "pending",
-        rejectionReason: null,
-        featured: false,
-        ratingAvg: 0,
-        ratingCount: 0,
-        createdAt: serverTimestamp(),
+      const res = await fetch("/api/properties/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: data.title,
+          description: data.description,
+          type: data.type,
+          price: Number(data.price),
+          city: data.city,
+          location: data.location,
+          neighbourhood: data.neighbourhood,
+          bedrooms: data.bedrooms,
+          bathrooms: data.bathrooms,
+          areaSqFt: Number(data.areaSqFt),
+          furnishing: data.furnishing,
+          preferredFor: data.preferredFor,
+          amenities: data.amenities,
+          images: imageUrls.length > 0 ? imageUrls : ["/images/property_apartment.png"],
+        }),
       });
+
+      const responseData = await res.json();
+      if (!res.ok) {
+        throw new Error(responseData.error || "Failed to publish listing.");
+      }
 
       setDone(true);
     } catch (err: unknown) {

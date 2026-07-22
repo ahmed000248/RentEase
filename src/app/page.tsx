@@ -129,69 +129,26 @@ export default function Home() {
     };
   }, []);
 
-  // When returning in the same session, position viewport at end of hero sequence so header & resting details show,
-  // while keeping the full scroll animation intact when scrolling back UP.
+  // Ensure page lands at Hero section start (top: 0) on mount / return
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const hasSeen = sessionStorage.getItem("hasSeenIntro");
-      if (hasSeen === "true") {
-        setHeaderVisible(true);
-        const timer = setTimeout(() => {
-          const featuredElem = document.getElementById("featured");
-          const isMobile = window.innerWidth <= 768;
-          const defaultTarget = window.innerHeight * (isMobile ? 6 : 8);
-          const targetY = featuredElem ? Math.min(featuredElem.offsetTop, defaultTarget) : defaultTarget;
-          
-          if (lenisRef.current) {
-            lenisRef.current.scrollTo(targetY, { immediate: true });
-          } else {
-            window.scrollTo({ top: targetY, behavior: "instant" as ScrollBehavior });
-          }
-        }, 300);
-        return () => clearTimeout(timer);
-      }
+      const timer = setTimeout(() => {
+        if (lenisRef.current) {
+          lenisRef.current.scrollTo(0, { immediate: true });
+        } else {
+          window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
     }
   }, []);
 
   const handleProgressUpdate = useCallback((progressPercent: number, isFinal: boolean) => {
-    if (progressPercent >= 75 || isFinal) {
-      setHeaderVisible(true);
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("hasSeenIntro", "true");
-      }
+    const shouldShowHeader = progressPercent >= 75 || isFinal;
+    setHeaderVisible(shouldShowHeader);
+    if (shouldShowHeader && typeof window !== "undefined") {
+      sessionStorage.setItem("hasSeenIntro", "true");
     }
-  }, []);
-
-
-
-  // Initialize GSAP Footer Animation
-  useEffect(() => {
-    if (!colossalTextRef.current || !footerSectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        colossalTextRef.current,
-        {
-          opacity: 0.05,
-          scale: 0.8,
-          y: 80,
-        },
-        {
-          opacity: 1,
-          scale: 1,
-          y: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: footerSectionRef.current,
-            start: "top 90%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    });
-
-    return () => ctx.revert();
   }, []);
 
   // Horizontal Carousel Navigation Controls
@@ -829,14 +786,17 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Colossal Scale Footer text tied to ScrollTrigger */}
+        {/* Colossal Scale Footer text with Framer Motion slide-up */}
         <div className="w-full flex items-center justify-center overflow-hidden border-t border-white/5 pt-12">
-          <div
-            ref={colossalTextRef}
-            className="colossal-footer-text font-black tracking-tighter text-center uppercase whitespace-nowrap text-[15vw] leading-none pointer-events-none text-white/10"
+          <motion.div
+            initial={{ opacity: 0.05, y: 80, scale: 0.85 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: false, amount: 0.2 }}
+            transition={{ duration: 0.8, ease: easePremium }}
+            className="colossal-footer-text font-black tracking-tighter text-center uppercase whitespace-nowrap text-[15vw] leading-none pointer-events-none text-white/15 dark:text-white/10"
           >
             RentEase
-          </div>
+          </motion.div>
         </div>
       </footer>
 

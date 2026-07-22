@@ -175,3 +175,39 @@ html.lenis body {
   display: none !important;
 }
 
+/* Light Theme Surface Overrides */
+html.light body {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+html.light .bg-\[\#050505\],
+html.light .bg-\[\#080808\],
+html.light .bg-\[\#0a0a0a\],
+html.light .bg-\[\#0d0d0d\],
+html.light .bg-\[\#141417\],
+html.light .bg-\[\#121315\],
+html.light .bg-\[\#141414\] {
+  background-color: #ffffff !important;
+  color: #0f172a;
+  border-color: #e2e8f0;
+}
+html.light .text-white {
+  color: #0f172a !important;
+}
+html.light .text-white\/70,
+html.light .text-white\/60,
+html.light .text-white\/50,
+html.light .text-\[\#b9ccb5\],
+html.light .text-\[\#7a7a7a\],
+html.light .text-\[\#8c8c8c\] {
+  color: #475569 !important;
+}
+html.light .border-white\/5,
+html.light .border-white\/10,
+html.light .border-white\/12,
+html.light .border-white\/15,
+html.light .border-\[\#232323\],
+html.light .border-\[\#3b4b3a\] {
+  border-color: #e2e8f0 !important;
+}
+

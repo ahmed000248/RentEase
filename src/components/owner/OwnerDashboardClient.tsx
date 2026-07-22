@@ -410,7 +410,7 @@ export default function OwnerDashboardClient({
                 <MessageSquare className="w-[17px] h-[17px] text-brand-green" />
                 <span className="font-heading font-bold text-[15px] text-[#f4f4ef]">Inquiries</span>
               </div>
-              <span className="text-xs text-brand-green font-semibold cursor-pointer">View All</span>
+              <Link href="/owner/messages" className="text-xs text-brand-green font-semibold hover:underline">View All</Link>
             </div>
 
             <div className="flex bg-[#1c1c1c] border border-[#2a2a2a] rounded-[10px] p-[3px] mb-3.5">
