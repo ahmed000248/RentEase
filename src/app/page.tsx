@@ -363,50 +363,7 @@ export default function Home() {
       </header>
 
       {/* A. Cinematic Scroll Hero Animation */}
-      {!skipIntro ? (
-        <HeroScrollAnimation onProgressUpdate={handleProgressUpdate} />
-      ) : (
-        <section className="relative min-h-[90vh] flex items-center justify-center pt-28 pb-20 bg-[#050505] text-white select-none">
-          <div className="absolute inset-0 z-0">
-            <Image
-              src="/images/hero-poster.jpg"
-              alt="RentEase Villa"
-              fill
-              priority
-              className="object-cover brightness-[0.45]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-black/40 to-[#050505]/80 z-[1]" />
-          </div>
-          <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight leading-[1.1] text-white mb-8">
-              {FINAL_HERO_COPY.titleLine1}{" "}
-              <span className="font-script text-brand-green italic font-normal tracking-wide px-2">
-                {FINAL_HERO_COPY.scriptAccent}
-              </span>{" "}
-              than you think.
-            </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-light leading-relaxed mb-10">
-              {FINAL_HERO_COPY.subhead}
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link
-                href="#featured"
-                className="group inline-flex items-center gap-3 bg-brand-green text-black px-8 py-4 rounded-full text-base font-bold transition-all duration-300 hover:bg-white hover:text-black"
-              >
-                <span>View Featured Properties</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-              <Link
-                href="/properties"
-                className="group inline-flex items-center gap-3 bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/20"
-              >
-                <span>Explore All Listings</span>
-                <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
+      <HeroScrollAnimation skipIntro={skipIntro} onProgressUpdate={handleProgressUpdate} />
 
       {/* B. Featured Properties (Horizontal Carousel) */}
       <section id="featured" className="py-24 border-b border-white/5 bg-[#080808]">

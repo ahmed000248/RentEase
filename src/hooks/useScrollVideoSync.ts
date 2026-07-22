@@ -19,11 +19,11 @@ export interface UseScrollVideoSyncReturn {
   isMobile: boolean;
 }
 
-export function useScrollVideoSync(): UseScrollVideoSyncReturn {
+export function useScrollVideoSync(disabled: boolean = false): UseScrollVideoSyncReturn {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
-  const [progress, setProgress] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(disabled ? 1 : 0);
   const [videoReady, setVideoReady] = useState<boolean>(false);
   const [videoFailed, setVideoFailed] = useState<boolean>(false);
   const [isReducedMotion, setIsReducedMotion] = useState<boolean>(false);
@@ -55,7 +55,7 @@ export function useScrollVideoSync(): UseScrollVideoSyncReturn {
 
   // 2. Setup GSAP ScrollTrigger + Ticker sync
   useEffect(() => {
-    if (isReducedMotion || !containerRef.current) return;
+    if (disabled || isReducedMotion || !containerRef.current) return;
 
     const video = videoRef.current;
     const pinDistance = isMobile
@@ -102,7 +102,7 @@ export function useScrollVideoSync(): UseScrollVideoSyncReturn {
     }, containerRef);
 
     return () => ctx.revert();
-  }, [isReducedMotion, isMobile, videoReady, videoFailed]);
+  }, [disabled, isReducedMotion, isMobile, videoReady, videoFailed]);
 
   // 3. Handle video event listeners
   useEffect(() => {
@@ -135,7 +135,7 @@ export function useScrollVideoSync(): UseScrollVideoSyncReturn {
   return {
     containerRef,
     videoRef,
-    progress,
+    progress: disabled ? 1 : progress,
     videoReady,
     videoFailed,
     isReducedMotion,

@@ -17,40 +17,42 @@ import {
 const TOTAL_FRAMES = 193;
 
 interface HeroCanvasAnimationProps {
+  skipIntro?: boolean;
   onProgressUpdate?: (progressPercent: number, isFinal: boolean) => void;
 }
 
-export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnimationProps) {
+export default function HeroCanvasAnimation({ skipIntro = false, onProgressUpdate }: HeroCanvasAnimationProps) {
   const {
     containerRef,
     videoRef,
-    progress,
+    progress: rawProgress,
     isReducedMotion,
-  } = useScrollVideoSync();
+  } = useScrollVideoSync(skipIntro);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const [framesLoaded, setFramesLoaded] = useState(false);
 
+  const progress = skipIntro ? 1 : rawProgress;
   const progressPercent = progress * 100;
 
   // Determine stage flags based on progress %
-  const isInitialActive = progressPercent < HERO_TIMELINE_CONFIG.ranges.phase1.start;
-  const isFinalActive = progressPercent >= HERO_TIMELINE_CONFIG.ranges.phase4.start;
+  const isInitialActive = !skipIntro && progressPercent < HERO_TIMELINE_CONFIG.ranges.phase1.start;
+  const isFinalActive = skipIntro || progressPercent >= HERO_TIMELINE_CONFIG.ranges.phase4.start;
 
   // Issue 2: Dynamic Brightness and Scrim Opacity
   // Phases 1-3: Full brightness (1.0), minimal scrim (0.1)
   // Phase 4 (75-100%): Ramps brightness down to 0.45, scrim opacity up to 0.85
-  const phase4Progress = Math.max(0, Math.min(1, (progressPercent - 74) / 20));
-  const canvasBrightness = isReducedMotion ? 0.45 : 1.0 - 0.55 * phase4Progress;
-  const scrimOpacity = isReducedMotion ? 0.85 : 0.1 + 0.75 * phase4Progress;
+  const phase4Progress = skipIntro ? 1 : Math.max(0, Math.min(1, (progressPercent - 74) / 20));
+  const canvasBrightness = isReducedMotion || skipIntro ? 0.45 : 1.0 - 0.55 * phase4Progress;
+  const scrimOpacity = isReducedMotion || skipIntro ? 0.85 : 0.1 + 0.75 * phase4Progress;
 
   // Opacity calculations for initial & final text content
-  const initialOpacity = isReducedMotion
+  const initialOpacity = isReducedMotion || skipIntro
     ? 0
     : Math.max(0, 1 - (progressPercent - 4) / 12);
 
-  const finalOpacity = isReducedMotion
+  const finalOpacity = isReducedMotion || skipIntro
     ? 1
     : Math.min(1, Math.max(0, (progressPercent - 75) / 15));
 
@@ -61,7 +63,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
 
   // 1. Preload frame image sequence
   useEffect(() => {
-    if (isReducedMotion) return;
+    if (isReducedMotion || skipIntro) return;
 
     let loadedCount = 0;
     const loadedImages: HTMLImageElement[] = [];
@@ -82,11 +84,11 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
     }
 
     imagesRef.current = loadedImages;
-  }, [isReducedMotion]);
+  }, [isReducedMotion, skipIntro]);
 
   // 2. Draw active frame on Canvas based on scroll progress
   useEffect(() => {
-    if (isReducedMotion || !canvasRef.current) return;
+    if (isReducedMotion || skipIntro || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
@@ -114,7 +116,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
     ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
-  }, [progress, isReducedMotion, framesLoaded]);
+  }, [progress, isReducedMotion, skipIntro, framesLoaded]);
 
   // 3. Handle window resize to update canvas internal resolution
   useEffect(() => {
@@ -133,12 +135,14 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-screen overflow-hidden bg-[#050505] text-white select-none"
+      className={`relative w-full overflow-hidden bg-[#050505] text-white select-none ${
+        skipIntro ? "min-h-[90vh] flex items-center justify-center pt-28 pb-20" : "h-screen"
+      }`}
     >
       {/* Background Media Container */}
       <div className="absolute inset-0 z-0">
         {/* Canvas Frame Sequence Element with dynamic brightness */}
-        {!isReducedMotion && (
+        {!isReducedMotion && !skipIntro && (
           <canvas
             ref={canvasRef}
             style={{ filter: `brightness(${canvasBrightness})` }}
@@ -149,7 +153,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
         )}
 
         {/* Video Fallback Element */}
-        {!isReducedMotion && !framesLoaded && (
+        {!isReducedMotion && !framesLoaded && !skipIntro && (
           <video
             ref={videoRef}
             muted
@@ -165,7 +169,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
         )}
 
         {/* Poster Image Fallback */}
-        {(isReducedMotion || !framesLoaded) && (
+        {(isReducedMotion || !framesLoaded || skipIntro) && (
           <Image
             src="/images/hero-poster.jpg"
             alt="RentEase Cinematic Villa Entrance"
@@ -184,7 +188,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
       </div>
 
       {/* 1. INITIAL STATE (Pinned, 0% - 8% progress) */}
-      {!isReducedMotion && (
+      {!isReducedMotion && !skipIntro && (
         <motion.div
           style={{ opacity: initialOpacity }}
           className={`pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6 transition-transform duration-300 ${
@@ -216,7 +220,7 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
       )}
 
       {/* 2. STORY PANELS (Phase 2 & Phase 3, 30% - 74% progress) */}
-      {!isReducedMotion &&
+      {!isReducedMotion && !skipIntro &&
         STORY_PANELS.map((panel) => {
           const isActive =
             progressPercent >= panel.startRange && progressPercent <= panel.endRange;
@@ -232,11 +236,11 @@ export default function HeroCanvasAnimation({ onProgressUpdate }: HeroCanvasAnim
           );
         })}
 
-      {/* 3. FINAL STATE REVEAL (75% - 100% progress) */}
+      {/* 3. FINAL STATE REVEAL (75% - 100% progress or skipIntro) */}
       <motion.div
-        style={{ opacity: isReducedMotion ? 1 : finalOpacity }}
+        style={{ opacity: isReducedMotion || skipIntro ? 1 : finalOpacity }}
         className={`absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 ${
-          isFinalActive || isReducedMotion ? "pointer-events-auto" : "pointer-events-none"
+          isFinalActive || isReducedMotion || skipIntro ? "pointer-events-auto" : "pointer-events-none"
         }`}
       >
         <div className="max-w-4xl mx-auto flex flex-col items-center">
