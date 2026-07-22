@@ -104,16 +104,21 @@ export default function Home() {
 
   const [activeAccordion, setActiveAccordion] = useState<number | null>(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [skipIntro, setSkipIntro] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(false);
 
-  // Sync sessionStorage for intro skip state on mount
+  // When returning in the same session, position viewport at end of hero sequence so header & resting details show,
+  // while keeping the full scroll animation intact when scrolling back UP.
   useEffect(() => {
     if (typeof window !== "undefined") {
       const hasSeen = sessionStorage.getItem("hasSeenIntro");
       if (hasSeen === "true") {
-        setSkipIntro(true);
         setHeaderVisible(true);
+        const timer = setTimeout(() => {
+          const isMobile = window.innerWidth <= 768;
+          const targetY = window.innerHeight * (isMobile ? 8 : 12);
+          window.scrollTo({ top: targetY, behavior: "instant" as ScrollBehavior });
+        }, 150);
+        return () => clearTimeout(timer);
       }
     }
   }, []);
@@ -194,7 +199,7 @@ export default function Home() {
     <div className="relative overflow-hidden">
 
       {/* A. Sticky Header / Navigation */}
-      <header className={`fixed top-0 left-0 w-full z-50 bg-[#050505]/40 backdrop-blur-md border-b border-white/5 transition-all duration-500 transform ${headerVisible || skipIntro ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-full opacity-0 pointer-events-none"}`}>
+      <header className={`fixed top-0 left-0 w-full z-50 bg-[#050505]/40 backdrop-blur-md border-b border-white/5 transition-all duration-500 transform ${headerVisible ? "translate-y-0 opacity-100 pointer-events-auto" : "-translate-y-full opacity-0 pointer-events-none"}`}>
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/" className="text-2xl font-extrabold tracking-tight">
             Rent<span className="text-brand-green">Ease</span>
@@ -362,8 +367,7 @@ export default function Home() {
         </AnimatePresence>
       </header>
 
-      {/* A. Cinematic Scroll Hero Animation */}
-      <HeroScrollAnimation skipIntro={skipIntro} onProgressUpdate={handleProgressUpdate} />
+      <HeroScrollAnimation onProgressUpdate={handleProgressUpdate} />
 
       {/* B. Featured Properties (Horizontal Carousel) */}
       <section id="featured" className="py-24 border-b border-white/5 bg-[#080808]">
